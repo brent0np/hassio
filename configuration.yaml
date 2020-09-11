@@ -1,0 +1,91 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+frontend:
+  themes: !include themes.yaml
+  
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+
+# Zigbee2mqtt Config
+mqtt:
+  broker: homeassistant # This will have to be your mqtt broker, Mosquitto addon is recommended.
+  discovery: true
+  username: brenton
+  password: !secret mqtt_password
+
+input_boolean:
+  zigbee_permit_join:
+    name: Allow devices to join
+    initial: off
+    icon: mdi:cellphone-wireless
+
+timer:
+  zigbee_permit_join:
+    name: Time remaining
+    duration: 600 # Updated this to the number of seconds you wish
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+#telegram notifications
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_token
+    allowed_chat_ids:
+      - !secret brenton_chatid
+      - !secret amy_chatid
+     
+notify:
+  - name: telegram_brenton
+    platform: telegram
+    chat_id: !secret brenton_chatid
+  - name: telegram_amy
+    platform: telegram
+    chat_id: !secret amy_chatid
+    
+webhook:
+
+zigbee2mqtt_networkmap:
+  #topic: your topic (optional, default zigbee2mqtt)
+panel_iframe:
+  networkmap:
+    title: 'Zigbee Map'
+    url: '/local/community/zigbee2mqtt_networkmap/map.html'
+    icon: 'mdi:graphql'
+
+switch:
+  - platform: mqtt
+    name: "living_lamp"
+    state_topic: "stat/living_lamp/POWER"
+    command_topic: "cmnd/living_lamp/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+    
+google_assistant:
+  project_id: berylhassio
+  service_account: !include google_service_account.json
+  report_state: true
+  secure_devices_pin: !secret devices_pin
+  exposed_domains:
+    - switch
+    - light
+  entity_config:
+    switch.sonoff_sonoff:
+      name: Bin Lights
+    switch.living_lamp:
+      name: Living Room Lamp
+    switch.gate:
+      name: Front Gate
+
+    
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+sensor: !include sensor.yaml

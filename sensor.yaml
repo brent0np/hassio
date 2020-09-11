@@ -1,0 +1,24 @@
+- platform: mqtt
+  name: Bridge state
+  state_topic: "zigbee2mqtt/bridge/state"
+  icon: mdi:router-wireless
+
+- platform: mqtt
+  name: "living_lamp Power Consumption"
+  state_topic: "tele/living_lamp/SENSOR"
+  value_template: "{{ value_json.ENERGY.Power }}"
+  unit_of_measurement: "Watts"
+
+- platform: systemmonitor
+  resources:
+  - type: disk_use_percent
+    arg: /home
+  - type: swap_use_percent
+    arg: /home
+  - type: memory_free
+  - type: processor_use
+  - type: memory_use
+  - type: load_1m
+  - type: load_5m
+  - type: load_15m
+  - type: last_boot
