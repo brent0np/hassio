@@ -7,15 +7,19 @@ I will make an effort to keep this up to date, and product updates on what I am 
 
 ## Current Smart Home Hardware:
 - Raspberry Pi 3B+
+
 ![Raspberry Pi 3B+](https://www.raspberrypi.org/homepage-9df4b/static/eef5d5d91acb34be0d7443b02cece1d1/ae23f/8c67a3e02f41441dae98f8b91c792c1e1b4afef1_770a5842.jpg)
 <br>
 - Raspberry Pi 3 Case
+
 ![Raspberry Pi 3 Case](https://cdn.shopify.com/s/files/1/0053/4721/3361/products/ET-RPI-3-CASE_1800x1800.png?v=1569890459)
 <br>
 - 2 x Sonoff SV
+
 ![Sonoff SV](https://www.itead.cc/wiki/images/thumb/8/8c/Sonoff_SV_%286%29.JPG/600px-Sonoff_SV_%286%29.JPG)
 <br>
 - Kogan Smart Plugs
+
 ![Kogan Smart Plugs](https://assets.kogan.com/files/product/KASPEMHA/KASPEMHA_2.jpg?auto=webp&canvas=753%2C502&fit=bounds&height=502&quality=75&width=753)
 <br>
 <br>
