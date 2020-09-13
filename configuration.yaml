@@ -22,7 +22,8 @@ input_boolean:
     name: Allow devices to join
     initial: off
     icon: mdi:cellphone-wireless
-
+    
+# Timer for Zigbee2MQTT
 timer:
   zigbee_permit_join:
     name: Time remaining
@@ -58,6 +59,7 @@ panel_iframe:
     url: '/local/community/zigbee2mqtt_networkmap/map.html'
     icon: 'mdi:graphql'
 
+# Switch config for Kogan Smart Plug
 switch:
   - platform: mqtt
     name: "living_lamp"
