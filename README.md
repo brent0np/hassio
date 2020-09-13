@@ -1,6 +1,6 @@
 # Home Assistant Config
 
-This is the story of my Home Assistant deployment (actually my second deployment).  I first started using home assistant at our first home, and now we have moved into our longer term family home (2 kids) I get to start the journey again.
+This is the story of my [Home Assistant](https://www.hass.io) deployment (actually my second deployment).  I first started using home assistant at our first home, and now we have moved into our longer term family home (2 kids) I get to start the journey again.
 
 I will make an effort to keep this up to date, and product updates on what I am doing to create a 'smarter home'.
 
@@ -23,6 +23,7 @@ I will make an effort to keep this up to date, and product updates on what I am 
 ![Kogan Smart Plugs](https://assets.kogan.com/files/product/KASPEMHA/KASPEMHA_2.jpg?auto=webp&canvas=753%2C502&fit=bounds&height=502&quality=75&width=753)
 <br>
 <br>
+
 ## Current Network Hardware
 <br>
 - 3 x Unify AP AC Pro
@@ -35,4 +36,5 @@ I will make an effort to keep this up to date, and product updates on what I am 
 <br>
 
 - Telstra Smart Modem Gen 2
+
 ![Telstra Smart Modem Gen 2](https://cdn.productreview.com.au/resize/listing-picture/f55e0f28-a8e3-44f3-8e8a-1a1220ec1c52?height=1000&withoutEnlargement=true&v=2)
