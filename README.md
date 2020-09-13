@@ -32,6 +32,7 @@ I will make an effort to keep this up to date, and product updates on what I am 
 <br>
 
 - TP-Link 5 Port PoE Switch
+
 ![TP-Link 5 Port PoE Switch](https://images-na.ssl-images-amazon.com/images/I/51rHzRkdVvL._AC_SL1001_.jpg)
 <br>
 
