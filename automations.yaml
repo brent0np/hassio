@@ -1,3 +1,5 @@
+# Automation for card to enable new zigbee devices to join network
+
 - id: enable_zigbee_join
   alias: Enable Zigbee joining
   trigger:
@@ -12,6 +14,9 @@
   - service: timer.start
     data:
       entity_id: timer.zigbee_permit_join
+
+# Automation for card to disable new devices join
+
 - id: disable_zigbee_join
   alias: Disable Zigbee joining
   trigger:
@@ -26,6 +31,9 @@
   - data:
       entity_id: timer.zigbee_permit_join
     service: timer.cancel
+
+# Disable zigbee join when timer expires
+
 - id: disable_zigbee_join_timer
   alias: Disable Zigbee joining by timer
   trigger:
@@ -41,6 +49,9 @@
   - service: input_boolean.turn_off
     data:
       entity_id: input_boolean.zigbee_permit_join
+
+# Automation to update visual map of zigbee network
+
 - id: update_networkmap
   alias: Zigbee Map Update
   trigger:
@@ -61,6 +72,9 @@
   - data: {}
     entity_id: switch.living_lamp
     service: switch.turn_on
+
+# Send Notification to Brenton when Amy leaves her fathers house
+
 - id: '1588724019082'
   alias: send notification when Amy D leaves Dar's House
   description: ''
@@ -74,6 +88,9 @@
   - data:
       message: Amy Left Dar's House
     service: notify.telegram_brenton
+
+# Send notification to Amy and Brenton when garage door is open for 20 minutes
+
 - id: '1591154308336'
   alias: 20min garage open alert
   description: ''
