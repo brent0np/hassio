@@ -1,14 +1,17 @@
+# MQTT platform entity displayed in zigbee2mqtt card
 - platform: mqtt
   name: Bridge state
   state_topic: "zigbee2mqtt/bridge/state"
   icon: mdi:router-wireless
 
+# Power Consumption for kogan smart plug that controls lamp
 - platform: mqtt
   name: "living_lamp Power Consumption"
   state_topic: "tele/living_lamp/SENSOR"
   value_template: "{{ value_json.ENERGY.Power }}"
   unit_of_measurement: "Watts"
 
+# System Monitor Status for Raspberry Pi 3+
 - platform: systemmonitor
   resources:
   - type: disk_use_percent
