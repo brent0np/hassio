@@ -1,2 +1,3 @@
+# Change name of sonoff for lamp
 switch.living_lamp:
   friendly_name: Living Room Lamp
