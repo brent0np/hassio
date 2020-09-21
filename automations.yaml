@@ -145,4 +145,7 @@
   - service: notify.telegram_brenton
     data:
       message: Garage Door Open & Nobody is Home!
+  - service: notify.telegram_amy
+    data:
+      message: Garage Door Open & Nobody is Home!
   mode: single
