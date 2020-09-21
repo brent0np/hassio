@@ -121,18 +121,21 @@
   alias: Garage open nobody home
   description: ''
   trigger:
-  - platform: state
+  - type: opened
+    platform: device
+    device_id: 8e771c0b255d4b36bfcff005b44518a6
     entity_id: binary_sensor.garage_door_sensor_contact
-    attribute: contact
-    from: 'On'
-    to: 'Off'
-    for: '30'
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
   condition:
   - condition: device
     device_id: b3cd29707da14763a6a18f523b4996e7
     domain: device_tracker
     entity_id: device_tracker.amys_iphone
-    type: is_home
+    type: is_not_home
   - condition: device
     device_id: 5c587f21890e440fab2cb9e2d9634716
     domain: device_tracker
@@ -141,5 +144,5 @@
   action:
   - service: notify.telegram_brenton
     data:
-      message: Garage Door open nobody home
+      message: Garage Door Open & Nobody is Home!
   mode: single
