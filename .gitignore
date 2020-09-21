@@ -37,3 +37,5 @@ www/community/zigbee2mqtt_networkmap/viz.js/LICENSE.txt
 www/community/zigbee2mqtt_networkmap/viz.js/viz.js
 www/community/zigbee2mqtt_networkmap/viz.js/viz.js.gz
 home-assistant_v2.db-wal
+image
+www/community/lovelace-card-mod/*
