@@ -149,3 +149,17 @@
     data:
       message: Garage Door Open & Nobody is Home!
   mode: single
+- id: '1601423365123'
+  alias: send notification when Amy D leaves swimming
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.amy_d
+    zone: zone.swimming
+    event: leave
+  condition: []
+  action:
+  - service: notify.telegram_brenton
+    data:
+      message: Amy Left Swimming Lessons
+  mode: single
