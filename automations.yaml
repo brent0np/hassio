@@ -163,3 +163,31 @@
     data:
       message: Amy Left Swimming Lessons
   mode: single
+- id: '1603426641009'
+  alias: send notification when amy leaves Amys Mothers House
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.amy_d
+    zone: zone.amy_s_mothers_house
+    event: leave
+  condition: []
+  action:
+  - service: notify.telegram_brenton
+    data:
+      message: Amy Left her Mothers House
+  mode: single
+- id: '1604986455639'
+  alias: send notification when Amy D leaves Sarah's House
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.amy_d
+    zone: zone.sarah_s_house
+    event: leave
+  condition: []
+  action:
+  - service: notify.telegram_brenton
+    data:
+      message: Amy Left Sarah's House
+  mode: single
