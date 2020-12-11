@@ -16,6 +16,7 @@ node-red/node-red-contrib-home-assistant-websocket.json
 node-red/package-lock.json
 node-red/package.json
 node-red/settings.js
+node-red/*
 home-assistant_v2.db-shm
 www/community/battery-state-card/battery-state-card.js
 www/community/battery-state-card/battery-state-card.js.gz
