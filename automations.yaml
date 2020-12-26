@@ -191,3 +191,28 @@
     data:
       message: Amy Left Sarah's House
   mode: single
+- id: '1608958215799'
+  alias: turn on garage light for 6 minutes when garage door is opened
+  description: ''
+  trigger:
+  - platform: device
+    domain: binary_sensor
+    entity_id: binary_sensor.garage_door_sensor_contact
+    device_id: 8e771c0b255d4b36bfcff005b44518a6
+    type: opened
+  condition:
+  - condition: sun
+    before: sunrise
+    after: sunset
+  action:
+  - domain: light
+    entity_id: light.55260257e0980602319a
+    device_id: 916790b31f58949f093490bbd76068a8
+    type: turn_on
+    brightness_pct: 100
+  - delay: 00:06:00
+  - type: turn_off
+    device_id: 916790b31f58949f093490bbd76068a8
+    entity_id: light.55260257e0980602319a
+    domain: light
+  mode: single
