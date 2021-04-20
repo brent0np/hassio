@@ -91,10 +91,11 @@
   action:
   - data:
       message: Garage Door may have been open for 20+ minutes
-    service: notify.telegram_brenton
+    service: notify.mobile_app_s21_5g_ultra
   - data:
       message: Garage Door may have been open for 20+ minutes
-    service: notify.telegram_amy
+    service: notify.mobile_app_amys_iphone
+  mode: single
 - id: '1600659867634'
   alias: switch off living_lamp when its midnight and no one is home
   description: ''
@@ -103,9 +104,9 @@
     at: '23:55'
   condition:
   - condition: device
-    device_id: 5c587f21890e440fab2cb9e2d9634716
+    device_id: c1fe4083e9de92f6dbc866c88fd0c543
     domain: device_tracker
-    entity_id: device_tracker.sm_g977b
+    entity_id: device_tracker.s21_5g_ultra
     type: is_not_home
   - condition: device
     device_id: b3cd29707da14763a6a18f523b4996e7
@@ -137,15 +138,15 @@
     entity_id: device_tracker.amys_iphone
     type: is_not_home
   - condition: device
-    device_id: 5c587f21890e440fab2cb9e2d9634716
+    device_id: c1fe4083e9de92f6dbc866c88fd0c543
     domain: device_tracker
-    entity_id: device_tracker.sm_g977b
+    entity_id: device_tracker.s21_5g_ultra
     type: is_not_home
   action:
-  - service: notify.telegram_brenton
+  - service: notify.mobile_app_s21_5g_ultra
     data:
       message: Garage Door Open & Nobody is Home!
-  - service: notify.telegram_amy
+  - service: notify.mobile_app_amys_iphone
     data:
       message: Garage Door Open & Nobody is Home!
   mode: single
@@ -191,28 +192,250 @@
     data:
       message: Amy Left Sarah's House
   mode: single
-- id: '1608958215799'
-  alias: turn on garage light for 6 minutes when garage door is opened
+- id: '1609243357632'
+  alias: Paul Black PUBG notification
   description: ''
   trigger:
-  - platform: device
-    domain: binary_sensor
-    entity_id: binary_sensor.garage_door_sensor_contact
-    device_id: 8e771c0b255d4b36bfcff005b44518a6
-    type: opened
+  - platform: state
+    entity_id: sensor.steam_76561197965532072
+    attribute: game
+    to: PLAYERUNKNOWN'S BATTLEGROUNDS
   condition:
-  - condition: sun
-    before: sunrise
-    after: sunset
+  - condition: device
+    device_id: c1fe4083e9de92f6dbc866c88fd0c543
+    domain: device_tracker
+    entity_id: device_tracker.s21_5g_ultra
+    type: is_home
   action:
-  - domain: light
-    entity_id: light.55260257e0980602319a
+  - service: notify.mobile_app_s21_5g_ultra
+    data:
+      message: Paul Black Playing PUBG
+  mode: single
+- id: '1609551055556'
+  alias: Garage light on when garage door opens
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: 8e771c0b255d4b36bfcff005b44518a6
+    entity_id: binary_sensor.garage_door_sensor_contact
+    domain: binary_sensor
+  condition: []
+  action:
+  - type: turn_on
     device_id: 916790b31f58949f093490bbd76068a8
-    type: turn_on
+    entity_id: light.55260257e0980602319a
+    domain: light
     brightness_pct: 100
-  - delay: 00:06:00
+  - delay: 00:04:00
   - type: turn_off
     device_id: 916790b31f58949f093490bbd76068a8
     entity_id: light.55260257e0980602319a
     domain: light
+  mode: single
+- id: '1609822948132'
+  alias: Paul Oberman PUBG notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.steam_76561198020324018
+    attribute: game
+    to: PLAYERUNKNOWN'S BATTLEGROUNDS
+  condition:
+  - condition: device
+    device_id: c1fe4083e9de92f6dbc866c88fd0c543
+    domain: device_tracker
+    entity_id: device_tracker.s21_5g_ultra
+    type: is_home
+  action:
+  - service: notify.mobile_app_s21_5g_ultra
+    data:
+      message: Paul Oberman Playing PUBG
+  mode: single
+- id: '1610334022576'
+  alias: Turn off Ryobi Charger when Charging finished
+  description: ''
+  use_blueprint:
+    path: skycryer/charging-done.yaml
+    input:
+      charger_relay: switch.ryobi_battery_charger_switch
+      actions:
+      - type: turn_off
+        device_id: 9d623c9890451f9bc64dddd516011ba1
+        entity_id: switch.ryobi_battery_charger_switch
+        domain: switch
+      charger_wattage: sensor.ryobi_battery_charger_power
+      wattage_threshold: 0.9
+- id: '1610622100020'
+  alias: Use Sonos as Doorbell Chime if after 7am but before 7pm only if someones
+    home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.doorbell_doorbell_pressed
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: time
+    after: 07:00
+    before: '19:00'
+  action:
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.35
+    entity_id: media_player.office
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.6
+    entity_id: media_player.living_room
+  - service: media_player.play_media
+    data:
+      media_content_id: https://brentonp.duckdns.org:8123/local/Doorbell-ring-chime.mp3
+      media_content_type: music
+    entity_id: media_player.office
+  - service: media_player.play_media
+    data:
+      media_content_id: https://brentonp.duckdns.org:8123/local/Doorbell-ring-chime.mp3
+      media_content_type: music
+    entity_id: media_player.living_room
+  - service: notify.mobile_app_s21_5g_ultra
+    data:
+      message: DoorBell Pressed
+  mode: single
+- id: '1611535302798'
+  alias: Doorbell Below 20 percent battery
+  description: ''
+  trigger:
+  - type: battery_level
+    platform: device
+    device_id: 17c10fe0f37cca56913f7097c77ba9f0
+    entity_id: sensor.doorbell_battery_percentage
+    domain: sensor
+    below: 21
+  condition: []
+  action:
+  - service: notify.mobile_app_s21_5g_ultra
+    data:
+      title: BATTERY ALERT
+      message: Doorbell Battery Below 20%
+  - service: notify.mobile_app_amys_iphone
+    data:
+      title: BATTERY ALERT
+      message: Doorbell Battery Below 20%
+  mode: single
+- id: '1613946226782'
+  alias: Start Kids Sleeping Music
+  description: ''
+  trigger:
+  - platform: time
+    at: '18:30'
+  condition: []
+  action:
+  - service: media_extractor.play_media
+    data:
+      entity_id: media_player.kids_bedroom
+      media_content_id: https://music.youtube.com/watch?v=xtIZmv-8Pzw&list=RDAOVeLjPH3HoIL6fMBehfV-CA
+      media_content_type: music
+    entity_id: media_player.kids_bedroom
+  mode: single
+- id: '1615511805859'
+  alias: Office magic cube actions
+  description: Office magic cube actions
+  use_blueprint:
+    path: Drafted/aqara-buttons-all-in-one-zigbee2mqtt.yaml
+    input:
+      action_sensor: sensor.office_cube_action
+      shake_action:
+      - type: toggle
+        device_id: 9e6e58e10275b845f8ecbc032b2931ab
+        entity_id: switch.office_fan_switch
+        domain: switch
+- id: '1615545032487'
+  alias: Aqara Magic Cube (Z2M)
+  description: ''
+  use_blueprint:
+    path: luckypoppy/z2m-xiaomi-cube-controller.yaml
+    input:
+      remote: sensor.office_cube_action
+      shake:
+      - type: toggle
+        device_id: 9e6e58e10275b845f8ecbc032b2931ab
+        entity_id: switch.office_fan_switch
+        domain: switch
+- id: '1615956086171'
+  alias: Upstairs Front Gate Button
+  description: ''
+  use_blueprint:
+    path: Drafted/aqara-buttons-all-in-one-zigbee2mqtt.yaml
+    input:
+      action_sensor: sensor.upstairs_gate_button_click
+      single_action:
+      - type: toggle
+        device_id: eb3cdd2cc67148b4a88d3d79d656b2e4
+        entity_id: switch.gate
+        domain: switch
+      double_action:
+      - type: toggle
+        device_id: 00fd17ab45254f3d9086abb44c4790e8
+        entity_id: switch.garage_garage
+        domain: switch
+- id: '1616034066915'
+  alias: send notification when Amy leaves NPSS
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: device_tracker.amys_iphone
+    zone: zone.npss
+    event: leave
+  condition: []
+  action:
+  - service: notify.mobile_app_s21_5g_ultra
+    data:
+      message: Amy Left NPSS
+  mode: single
+- id: '1618136757968'
+  alias: Office Garage Door Vacuum Safety Alert
+  description: ''
+  trigger:
+  - platform: device
+    device_id: 5b5d723b99b7362142fdd8ce79858fb0
+    domain: vacuum
+    entity_id: vacuum.rockrobo_vacuum_v1
+    type: cleaning
+  condition:
+  - condition: state
+    entity_id: binary_sensor.0x00158d0002509ff4_contact
+    state: 'on'
+    attribute: contact
+  action:
+  - service: vacuum.pause
+    target:
+      device_id: 5b5d723b99b7362142fdd8ce79858fb0
+  - service: notify.mobile_app_s21_5g_ultra
+    data:
+      message: Office Vacuum Paused For Safety (Garage Door)
+  - service: notify.mobile_app_amys_iphone
+    data:
+      message: Office Vacuum Paused For Safety (Garage Door)
+  mode: single
+- id: '1618227156870'
+  alias: Resume Office Vacuum when office garage door closed
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.0x00158d0002509ff4_contact
+    from: 'On'
+    to: 'Off'
+  condition:
+  - condition: state
+    entity_id: vacuum.rockrobo_vacuum_v1
+    state: Paused
+    attribute: status
+  action:
+  - service: vacuum.start_pause
+    target:
+      device_id: 5b5d723b99b7362142fdd8ce79858fb0
+  - service: notify.mobile_app_s21_5g_ultra
+    data:
+      message: Office Vacuum Resumed as safe to do so
   mode: single
