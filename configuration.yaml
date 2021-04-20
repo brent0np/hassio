@@ -3,7 +3,9 @@
 default_config:
 frontend:
   themes: !include themes.yaml
-  
+
+media_extractor:
+
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
   ssl_certificate: /ssl/fullchain.pem
@@ -86,7 +88,6 @@ google_assistant:
       name: Living Room Lamp
     switch.gate:
       name: Front Gate
-
     
 group: !include groups.yaml
 automation: !include automations.yaml

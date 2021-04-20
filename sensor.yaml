@@ -25,3 +25,21 @@
   - type: load_5m
   - type: load_15m
   - type: last_boot
+
+- platform: steam_online
+  api_key: !secret steam_api
+  accounts:
+    - 76561198020324018
+    - 76561197965532072
+    
+- platform: template
+  sensors:
+    steam_last_online:
+      friendly_name: Paul Oberman Last Online
+      value_template: "{{ state_attr('sensor.steam_76561198020324018','last_online') }}"
+      device_class: timestamp
+      
+    steam_last_online:
+      friendly_name: Paul Black Last Online
+      value_template: "{{ state_attr('sensor.steam_76561197965532072','last_online') }}"
+      device_class: timestamp
