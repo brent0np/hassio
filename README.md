@@ -5,7 +5,7 @@ This is the story of my [Home Assistant](https://www.hass.io) deployment (actual
 I will make an effort to keep this up to date, and progress updates on what I am doing to create a 'smarter home'.
 
 
-## Current Smart Home Hardware: ##
+## Current Smart Home Hardware:
 - Raspberry Pi 3B
 <br>
 - Raspberry Pi 3 Case
