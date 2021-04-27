@@ -54,12 +54,12 @@ notify:
 webhook:
 
 #Ziggbe2MQTT Network Map Config
-zigbee2mqtt_networkmap:
-panel_iframe:
-  networkmap:
-    title: 'Zigbee Map'
-    url: '/local/community/zigbee2mqtt_networkmap/map.html'
-    icon: 'mdi:graphql'
+#zigbee2mqtt_networkmap:
+#panel_iframe:
+#  networkmap:
+#    title: 'Zigbee Map'
+#    url: '/local/community/zigbee2mqtt_networkmap/map.html'
+#    icon: 'mdi:graphql'
 
 # Switch config for Kogan Smart Plug
 switch:
