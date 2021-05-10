@@ -41,14 +41,6 @@
   - service: input_boolean.turn_off
     data:
       entity_id: input_boolean.zigbee_permit_join
-- id: update_networkmap
-  alias: Zigbee Map Update
-  trigger:
-    platform: time_pattern
-    minutes: /10
-    seconds: 0
-  action:
-    service: zigbee2mqtt_networkmap.update
 - id: '1587960507517'
   alias: Turn on living room lamp
   description: ''
@@ -258,11 +250,11 @@
   use_blueprint:
     path: skycryer/charging-done.yaml
     input:
-      charger_relay: switch.ryobi_battery_charger_switch
+      charger_relay: switch.ryobi_battery_charger
       actions:
       - type: turn_off
         device_id: 9d623c9890451f9bc64dddd516011ba1
-        entity_id: switch.ryobi_battery_charger_switch
+        entity_id: switch.0x000d6f000d1a5ba1
         domain: switch
       charger_wattage: sensor.ryobi_battery_charger_power
       wattage_threshold: 0.9
@@ -279,6 +271,20 @@
   - condition: time
     after: 07:00
     before: '19:00'
+  - condition: and
+    conditions:
+    - condition: device
+      device_id: b3cd29707da14763a6a18f523b4996e7
+      domain: device_tracker
+      entity_id: device_tracker.amys_iphone
+      type: is_home
+    - condition: or
+      conditions:
+      - condition: device
+        device_id: c1fe4083e9de92f6dbc866c88fd0c543
+        domain: device_tracker
+        entity_id: device_tracker.s21_5g_ultra
+        type: is_home
   action:
   - service: media_player.volume_set
     data:
@@ -323,33 +329,6 @@
       title: BATTERY ALERT
       message: Doorbell Battery Below 20%
   mode: single
-- id: '1613946226782'
-  alias: Start Kids Sleeping Music
-  description: ''
-  trigger:
-  - platform: time
-    at: '18:30'
-  condition: []
-  action:
-  - service: media_extractor.play_media
-    data:
-      entity_id: media_player.kids_bedroom
-      media_content_id: https://music.youtube.com/watch?v=xtIZmv-8Pzw&list=RDAOVeLjPH3HoIL6fMBehfV-CA
-      media_content_type: music
-    entity_id: media_player.kids_bedroom
-  mode: single
-- id: '1615511805859'
-  alias: Office magic cube actions
-  description: Office magic cube actions
-  use_blueprint:
-    path: Drafted/aqara-buttons-all-in-one-zigbee2mqtt.yaml
-    input:
-      action_sensor: sensor.office_cube_action
-      shake_action:
-      - type: toggle
-        device_id: 9e6e58e10275b845f8ecbc032b2931ab
-        entity_id: switch.office_fan_switch
-        domain: switch
 - id: '1615545032487'
   alias: Aqara Magic Cube (Z2M)
   description: ''
@@ -360,7 +339,7 @@
       shake:
       - type: toggle
         device_id: 9e6e58e10275b845f8ecbc032b2931ab
-        entity_id: switch.office_fan_switch
+        entity_id: switch.office_fan
         domain: switch
 - id: '1615956086171'
   alias: Upstairs Front Gate Button
@@ -368,17 +347,17 @@
   use_blueprint:
     path: Drafted/aqara-buttons-all-in-one-zigbee2mqtt.yaml
     input:
-      action_sensor: sensor.upstairs_gate_button_click
       single_action:
-      - type: toggle
+      - type: turn_on
         device_id: eb3cdd2cc67148b4a88d3d79d656b2e4
         entity_id: switch.gate
         domain: switch
       double_action:
-      - type: toggle
+      - type: turn_on
         device_id: 00fd17ab45254f3d9086abb44c4790e8
         entity_id: switch.garage_garage
         domain: switch
+      action_sensor: sensor.upstairs_gate_button_click
 - id: '1616034066915'
   alias: send notification when Amy leaves NPSS
   description: ''
@@ -404,9 +383,9 @@
     type: cleaning
   condition:
   - condition: state
-    entity_id: binary_sensor.0x00158d0002509ff4_contact
     state: 'on'
     attribute: contact
+    entity_id: binary_sensor.office_garage_door_contact
   action:
   - service: vacuum.pause
     target:
@@ -423,9 +402,9 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.0x00158d0002509ff4_contact
     from: 'On'
     to: 'Off'
+    entity_id: binary_sensor.office_garage_door_contact
   condition:
   - condition: state
     entity_id: vacuum.rockrobo_vacuum_v1
@@ -438,4 +417,25 @@
   - service: notify.mobile_app_s21_5g_ultra
     data:
       message: Office Vacuum Resumed as safe to do so
+  - service: notify.mobile_app_amys_iphone
+    data:
+      message: Office Vacuum Resumed as safe to do so
+  mode: single
+- id: '1620646370312'
+  alias: Office Vacuum Sensor Cleaning Alert
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: vacuum.rockrobo_vacuum_v1
+    attribute: sensor_dirty_left
+    from: '0'
+    to: '1'
+  condition: []
+  action:
+  - service: notify.mobile_app_amys_iphone
+    data:
+      message: Office Vacuum Sensors Require Cleaning
+  - service: notify.mobile_app_s21_5g_ultra
+    data:
+      message: Office Vacuum Sensors Require Cleaning
   mode: single
