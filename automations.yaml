@@ -439,3 +439,15 @@
     data:
       message: Office Vacuum Sensors Require Cleaning
   mode: single
+- id: '1620685138069'
+  alias: Home Assistant Restart Alert
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: notify.telegram_brenton
+    data:
+      message: Home Assistant Has Restarted
+  mode: single
