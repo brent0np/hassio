@@ -357,7 +357,7 @@
         device_id: 00fd17ab45254f3d9086abb44c4790e8
         entity_id: switch.garage_garage
         domain: switch
-      action_sensor: sensor.upstairs_gate_button_click
+      action_sensor: sensor.upstairs_gate_button_action
 - id: '1616034066915'
   alias: send notification when Amy leaves NPSS
   description: ''
@@ -451,3 +451,19 @@
     data:
       message: Home Assistant Has Restarted
   mode: single
+- id: '1620816528027'
+  alias: Low battery level detection & notification for all battery sensors
+  description: ''
+  use_blueprint:
+    path: sbyx/low-battery-level-detection-notification-for-all-battery-sensors.yaml
+    input:
+      day: 6
+      threshold: 30
+      actions:
+      - service: notify.telegram_brenton
+        data:
+          message: The battery of the sensor(s) {{sensors}} is low.
+      exclude:
+        entity_id:
+        - sensor.amys_iphone_battery_level
+        - sensor.s21_5g_ultra_battery_level
