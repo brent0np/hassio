@@ -53,3 +53,5 @@ zigbee2mqtt/database.db
 tts/a94a8fe5ccb19ba61c4c0873d391e987982fbbd3_en_-_google_translate.mp3
 zigbee2mqtt/state.json
 zigbee2mqtt/log/2021-03-02.13-42-22/log.txt
+blueprints/automation/sbyx/low-battery-level-detection-notification-for-all-battery-sensors.yaml
+blueprints/script/homeassistant/confirmable_notification.yaml
