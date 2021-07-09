@@ -25,6 +25,7 @@
   - type: load_5m
   - type: load_15m
   - type: last_boot
+  - type: processor_temperature
 
 - platform: steam_online
   api_key: !secret steam_api
