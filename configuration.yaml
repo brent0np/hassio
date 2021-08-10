@@ -81,6 +81,15 @@ google_assistant:
     switch.gate:
       name: Front Gate
     
+  
+binary_sensor:
+- platform: workday
+  country: AU
+  province: QLD
+  workdays: [mon, tue, wed, thu, fri]
+  excludes: [sat, sun]
+
+
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
