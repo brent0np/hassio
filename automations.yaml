@@ -81,9 +81,9 @@
     type: opened
   condition: []
   action:
-  - data:
+  - service: notify.telegram_brenton
+    data:
       message: Garage Door may have been open for 20+ minutes
-    service: notify.mobile_app_s21_5g_ultra
   - data:
       message: Garage Door may have been open for 20+ minutes
     service: notify.mobile_app_amys_iphone
@@ -191,7 +191,7 @@
   - platform: state
     entity_id: sensor.steam_76561197965532072
     attribute: game
-    to: PLAYERUNKNOWN'S BATTLEGROUNDS
+    to: 'PUBG: BATTLEGROUNDS'
   condition:
   - condition: device
     device_id: c1fe4083e9de92f6dbc866c88fd0c543
@@ -199,9 +199,9 @@
     entity_id: device_tracker.s21_5g_ultra
     type: is_home
   action:
-  - service: notify.mobile_app_s21_5g_ultra
+  - service: notify.telegram_brenton
     data:
-      message: Paul Black Playing PUBG
+      message: Paul Black playing PUBG
   mode: single
 - id: '1609551055556'
   alias: Garage light on when garage door opens
@@ -232,7 +232,7 @@
   - platform: state
     entity_id: sensor.steam_76561198020324018
     attribute: game
-    to: PLAYERUNKNOWN'S BATTLEGROUNDS
+    to: 'PUBG: BATTLEGROUNDS'
   condition:
   - condition: device
     device_id: c1fe4083e9de92f6dbc866c88fd0c543
@@ -240,9 +240,9 @@
     entity_id: device_tracker.s21_5g_ultra
     type: is_home
   action:
-  - service: notify.mobile_app_s21_5g_ultra
+  - service: notify.telegram_brenton
     data:
-      message: Paul Oberman Playing PUBG
+      message: Paul Oberman playing PUBG
   mode: single
 - id: '1610334022576'
   alias: Turn off Ryobi Charger when Charging finished
@@ -371,73 +371,6 @@
   - service: notify.mobile_app_s21_5g_ultra
     data:
       message: Amy Left NPSS
-  mode: single
-- id: '1618136757968'
-  alias: Office Garage Door Vacuum Safety Alert
-  description: ''
-  trigger:
-  - platform: device
-    device_id: 5b5d723b99b7362142fdd8ce79858fb0
-    domain: vacuum
-    entity_id: vacuum.rockrobo_vacuum_v1
-    type: cleaning
-  condition:
-  - condition: state
-    state: 'on'
-    attribute: contact
-    entity_id: binary_sensor.office_garage_door_contact
-  action:
-  - service: vacuum.pause
-    target:
-      device_id: 5b5d723b99b7362142fdd8ce79858fb0
-  - service: notify.mobile_app_s21_5g_ultra
-    data:
-      message: Office Vacuum Paused For Safety (Garage Door)
-  - service: notify.mobile_app_amys_iphone
-    data:
-      message: Office Vacuum Paused For Safety (Garage Door)
-  mode: single
-- id: '1618227156870'
-  alias: Resume Office Vacuum when office garage door closed
-  description: ''
-  trigger:
-  - platform: state
-    from: 'On'
-    to: 'Off'
-    entity_id: binary_sensor.office_garage_door_contact
-  condition:
-  - condition: state
-    entity_id: vacuum.rockrobo_vacuum_v1
-    state: Paused
-    attribute: status
-  action:
-  - service: vacuum.start_pause
-    target:
-      device_id: 5b5d723b99b7362142fdd8ce79858fb0
-  - service: notify.mobile_app_s21_5g_ultra
-    data:
-      message: Office Vacuum Resumed as safe to do so
-  - service: notify.mobile_app_amys_iphone
-    data:
-      message: Office Vacuum Resumed as safe to do so
-  mode: single
-- id: '1620646370312'
-  alias: Office Vacuum Sensor Cleaning Alert
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: vacuum.rockrobo_vacuum_v1
-    attribute: sensor_dirty_left
-    from: '0'
-    to: '1'
-  condition: []
-  action:
-  - service: notify.mobile_app_amys_iphone
-    data:
-      message: Office Vacuum Sensors Require Cleaning
-  - service: notify.mobile_app_s21_5g_ultra
-    data:
-      message: Office Vacuum Sensors Require Cleaning
   mode: single
 - id: '1620685138069'
   alias: Home Assistant Restart Alert
