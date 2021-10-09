@@ -400,3 +400,37 @@
         entity_id:
         - sensor.amys_iphone_battery_level
         - sensor.s21_5g_ultra_battery_level
+- id: '1633315308500'
+  alias: Upstairs Gate Button Gate Toggle
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 03082386f0a7233cb7b20647ab0a162e
+    type: click
+    subtype: single
+    discovery_id: 0x00158d00024a36fd click_single
+  condition: []
+  action:
+  - type: turn_on
+    device_id: eb3cdd2cc67148b4a88d3d79d656b2e4
+    entity_id: switch.gate
+    domain: switch
+  mode: single
+- id: '1633315566819'
+  alias: Upstairs Gate Button Garage Toggle
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 03082386f0a7233cb7b20647ab0a162e
+    type: click
+    subtype: double
+    discovery_id: 0x00158d00024a36fd click_double
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 00fd17ab45254f3d9086abb44c4790e8
+    entity_id: switch.garage_garage
+    domain: switch
+  mode: single
