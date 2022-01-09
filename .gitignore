@@ -57,3 +57,7 @@ blueprints/automation/sbyx/low-battery-level-detection-notification-for-all-batt
 blueprints/script/homeassistant/confirmable_notification.yaml
 home-assistant.log.1
 .gitignore
+home-assistant.log.fault
+www/community/lovelace-xiaomi-vacuum-card/vacuum.png
+www/community/lovelace-xiaomi-vacuum-card/xiaomi-vacuum-card.js.gz
+www/community/lovelace-xiaomi-vacuum-card/xiaomi-vacuum-card.js

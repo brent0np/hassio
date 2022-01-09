@@ -51,8 +51,10 @@
   condition: []
   action:
   - data: {}
-    entity_id: switch.living_lamp
     service: switch.turn_on
+    target:
+      device_id:
+      - 0f2f10ab47d46ff93e7897466847c01f
 - id: '1588724019082'
   alias: send notification when Amy D leaves Dar's House
   description: ''
@@ -93,7 +95,7 @@
   description: ''
   trigger:
   - platform: time
-    at: '23:55'
+    at: '23:55:00'
   condition:
   - condition: device
     device_id: c1fe4083e9de92f6dbc866c88fd0c543
@@ -108,7 +110,8 @@
   action:
   - service: switch.turn_off
     data: {}
-    entity_id: switch.living_lamp
+    target:
+      device_id: 0f2f10ab47d46ff93e7897466847c01f
   mode: single
 - id: '1600726741112'
   alias: Garage open nobody home
@@ -215,14 +218,14 @@
   condition: []
   action:
   - type: turn_on
-    device_id: 916790b31f58949f093490bbd76068a8
-    entity_id: light.55260257e0980602319a
+    device_id: 270ea5dca78f1a6a86b21ff6248349f7
+    entity_id: light.wi_fi_led_bulb_bayonet_fitting
     domain: light
     brightness_pct: 100
   - delay: 00:04:00
   - type: turn_off
-    device_id: 916790b31f58949f093490bbd76068a8
-    entity_id: light.55260257e0980602319a
+    device_id: 270ea5dca78f1a6a86b21ff6248349f7
+    entity_id: light.wi_fi_led_bulb_bayonet_fitting
     domain: light
   mode: single
 - id: '1609822948132'
@@ -269,22 +272,8 @@
     to: 'on'
   condition:
   - condition: time
-    after: 07:00
-    before: '19:00'
-  - condition: and
-    conditions:
-    - condition: device
-      device_id: b3cd29707da14763a6a18f523b4996e7
-      domain: device_tracker
-      entity_id: device_tracker.amys_iphone
-      type: is_home
-    - condition: or
-      conditions:
-      - condition: device
-        device_id: c1fe4083e9de92f6dbc866c88fd0c543
-        domain: device_tracker
-        entity_id: device_tracker.s21_5g_ultra
-        type: is_home
+    after: 07:00:00
+    before: '19:00:00'
   action:
   - service: media_player.volume_set
     data:
@@ -304,9 +293,9 @@
       media_content_id: https://brentonp.duckdns.org:8123/local/Doorbell-ring-chime.mp3
       media_content_type: music
     entity_id: media_player.living_room
-  - service: notify.mobile_app_s21_5g_ultra
+  - service: notify.telegram_brenton
     data:
-      message: DoorBell Pressed
+      message: Doorbell Pressed
   mode: single
 - id: '1611535302798'
   alias: Doorbell Below 20 percent battery

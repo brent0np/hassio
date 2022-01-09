@@ -3,6 +3,8 @@
 default_config:
 frontend:
   themes: !include themes.yaml
+  extra_module_url:
+    - \config\www\community\lovelace-card-mod/card-mod.js
 
 media_extractor:
 
