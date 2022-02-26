@@ -91,6 +91,11 @@ binary_sensor:
   workdays: [mon, tue, wed, thu, fri]
   excludes: [sat, sun]
 
+#Sonos Cloud
+sonos_cloud:
+  client_id: !secret sonos_id
+  client_secret: !secret sonos_secret
+
 
 group: !include groups.yaml
 automation: !include automations.yaml
