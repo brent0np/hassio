@@ -248,8 +248,7 @@
       message: Paul Oberman playing PUBG
   mode: single
 - id: '1610622100020'
-  alias: Use Sonos as Doorbell Chime if after 7am but before 7pm only if someones
-    home
+  alias: Use Sonos as Doorbell Chime if after 7am but before 7pm
   description: ''
   trigger:
   - platform: state
