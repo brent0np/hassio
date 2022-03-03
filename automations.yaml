@@ -413,18 +413,6 @@
     entity_id: switch.garage_garage
     domain: switch
   mode: single
-- id: '1644141242199'
-  alias: Offline detection for Z2M devices with last_seen
-  description: ''
-  use_blueprint:
-    path: Mr-Groch/offline-notification-for-sensors-with-last_seen.yaml
-    input:
-      actions:
-      - service: notify.telegram_brenton
-        data:
-          message: '{{sensors}} offline for 24 hours'
-      time: 09:10:00
-      hours: 12
 - id: '1644963003149'
   alias: send notification when Amy leaves Wishart SS
   description: ''
