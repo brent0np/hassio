@@ -251,10 +251,11 @@
   alias: Use Sonos as Doorbell Chime if after 7am but before 7pm
   description: ''
   trigger:
-  - platform: state
-    from: 'off'
+  - type: turned_on
+    platform: device
+    device_id: 806ced8a4cf1b1b0188c6095d5326892
     entity_id: binary_sensor.doorbell_ringing_sensor
-    to: 'on'
+    domain: binary_sensor
   condition:
   - condition: time
     after: 07:00:00
