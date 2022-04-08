@@ -82,6 +82,8 @@ google_assistant:
       name: Living Room Lamp
     switch.gate:
       name: Front Gate
+    cover:
+      name: Garage Door Cover Test
     
   
 binary_sensor:
@@ -96,6 +98,7 @@ sonos_cloud:
   client_id: !secret sonos_id
   client_secret: !secret sonos_secret
 
+#Testing Cover Script
 cover:
 - platform: template
   covers:
