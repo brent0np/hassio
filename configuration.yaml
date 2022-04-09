@@ -75,6 +75,7 @@ google_assistant:
   exposed_domains:
     - switch
     - light
+    - lock
   entity_config:
     switch.sonoff_sonoff:
       name: Bin Lights
@@ -82,7 +83,7 @@ google_assistant:
       name: Living Room Lamp
     switch.gate:
       name: Front Gate
-    cover:
+    cover.garage_door:
       name: Garage Door Cover Test
     
   
