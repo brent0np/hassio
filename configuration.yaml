@@ -104,16 +104,18 @@ cover:
 - platform: template
   covers:
     garage_door:
+      device_class: garage
       friendly_name: "Garage Door Cover Test"
       value_template: "{{ is_state('binary_sensor.garage_door_sensor', 'on') }}"
       open_cover:
         service: switch.toggle
         data:
-          entity_id: switch.garage_garage
+          entity_id: cover.garage_door
+      value_template: "{{ is_state('binary_sensor.garage_door_sensor', 'off') }}"
       close_cover:
         service: switch.toggle
         data:
-          entity_id: switch.garage_garage
+          entity_id: cover.garage_door
       icon_template: >-
         {% if states('binary_sensor.garage_door_sensor_contact') == "on" %}
           mdi:garage-open-variant
