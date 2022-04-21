@@ -320,23 +320,6 @@
         device_id: 9e6e58e10275b845f8ecbc032b2931ab
         entity_id: switch.office_fan
         domain: switch
-- id: '1615956086171'
-  alias: Upstairs Front Gate Button
-  description: ''
-  use_blueprint:
-    path: Drafted/aqara-buttons-all-in-one-zigbee2mqtt.yaml
-    input:
-      single_action:
-      - type: turn_on
-        device_id: eb3cdd2cc67148b4a88d3d79d656b2e4
-        entity_id: switch.gate
-        domain: switch
-      double_action:
-      - type: turn_on
-        device_id: 00fd17ab45254f3d9086abb44c4790e8
-        entity_id: switch.garage_garage
-        domain: switch
-      action_sensor: sensor.upstairs_gate_button_action
 - id: '1616034066915'
   alias: send notification when Amy leaves NPSS
   description: ''
