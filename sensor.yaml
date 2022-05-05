@@ -27,20 +27,20 @@
   - type: last_boot
   - type: processor_temperature
 
-- platform: steam_online
-  api_key: !secret steam_api
-  accounts:
-    - 76561198020324018
-    - 76561197965532072
+#- platform: steam_online
+#  api_key: !secret steam_api
+#  accounts:
+#    - 76561198020324018
+#    - 76561197965532072
     
-- platform: template
-  sensors:
-    steam_last_online:
-      friendly_name: Paul Oberman Last Online
-      value_template: "{{ state_attr('sensor.steam_76561198020324018','last_online') }}"
-      device_class: timestamp
-      
-    steam_last_online:
-      friendly_name: Paul Black Last Online
-      value_template: "{{ state_attr('sensor.steam_76561197965532072','last_online') }}"
-      device_class: timestamp
+#- platform: template
+#  sensors:
+#    steam_last_online_po:
+#      friendly_name: Paul Oberman Last Online
+#      value_template: "{{ state_attr('sensor.steam_76561198020324018','last_online') }}"
+#      device_class: timestamp
+#      
+#    steam_last_online_pb:
+#      friendly_name: Paul Black Last Online
+#      value_template: "{{ state_attr('sensor.steam_76561197965532072','last_online') }}"
+#      device_class: timestamp
