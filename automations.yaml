@@ -222,10 +222,19 @@
     entity_id: light.wi_fi_led_bulb_bayonet_fitting
     domain: light
     brightness_pct: 100
+  - type: turn_on
+    device_id: 1cd83f6cb7729f6d7a5ec4e13dc3b626
+    entity_id: light.wled
+    domain: light
+    brightness_pct: 100
   - delay: 00:04:00
   - type: turn_off
     device_id: 270ea5dca78f1a6a86b21ff6248349f7
     entity_id: light.wi_fi_led_bulb_bayonet_fitting
+    domain: light
+  - type: turn_off
+    device_id: 1cd83f6cb7729f6d7a5ec4e13dc3b626
+    entity_id: light.wled
     domain: light
   mode: single
 - id: '1609822948132'
@@ -251,11 +260,11 @@
   alias: Use Sonos as Doorbell Chime if after 7am but before 7pm
   description: ''
   trigger:
-  - type: turned_on
-    platform: device
-    device_id: 806ced8a4cf1b1b0188c6095d5326892
-    entity_id: binary_sensor.doorbell_ringing_sensor
-    domain: binary_sensor
+  - platform: state
+    entity_id:
+    - binary_sensor.doorbell_ringing_sensor
+    from: 'False'
+    to: 'True'
   condition:
   - condition: time
     after: 07:00:00
@@ -423,4 +432,19 @@
   - service: notify.telegram_brenton
     data:
       message: Amy Left Ballet
+  mode: single
+- id: '1653015468075'
+  alias: Internet Outage Alert
+  description: ''
+  trigger:
+  - type: not_connected
+    platform: device
+    device_id: 378990ed93e815f15c00620522654cd1
+    entity_id: binary_sensor.technicolor_cobraxh_2211je422_wan_status
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.telegram_brenton
+    data:
+      message: Technicolor CobraXh (2211JE422) wan status disconnected
   mode: single
