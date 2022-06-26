@@ -83,8 +83,8 @@ google_assistant:
       name: Living Room Lamp
     switch.gate:
       name: Front Gate
-    cover.garage_door:
-      name: Garage Door Cover Test
+    switch.garage_garage:
+      name: Garage Door
     
   
 binary_sensor:
@@ -98,30 +98,6 @@ binary_sensor:
 sonos_cloud:
   client_id: !secret sonos_id
   client_secret: !secret sonos_secret
-
-#Testing Cover Script
-cover:
-- platform: template
-  covers:
-    garage_door:
-      device_class: garage
-      friendly_name: "Garage Door Cover Test"
-      value_template: "{{ is_state('binary_sensor.garage_door_sensor', 'on') }}"
-      open_cover:
-        service: switch.toggle
-        data:
-          entity_id: cover.garage_door
-      value_template: "{{ is_state('binary_sensor.garage_door_sensor', 'off') }}"
-      close_cover:
-        service: switch.toggle
-        data:
-          entity_id: cover.garage_door
-      icon_template: >-
-        {% if states('binary_sensor.garage_door_sensor_contact') == "on" %}
-          mdi:garage-open-variant
-        {% else %}
-          mdi:garage-variant
-        {% endif %}  
 
 group: !include groups.yaml
 automation: !include automations.yaml
