@@ -433,18 +433,3 @@
     data:
       message: Amy Left Ballet
   mode: single
-- id: '1653015468075'
-  alias: Internet Outage Alert
-  description: ''
-  trigger:
-  - type: not_connected
-    platform: device
-    device_id: 378990ed93e815f15c00620522654cd1
-    entity_id: binary_sensor.technicolor_cobraxh_2211je422_wan_status
-    domain: binary_sensor
-  condition: []
-  action:
-  - service: notify.telegram_brenton
-    data:
-      message: Technicolor CobraXh (2211JE422) wan status disconnected
-  mode: single
