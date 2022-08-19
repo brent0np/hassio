@@ -71,11 +71,9 @@ google_assistant:
   project_id: berylhassio
   service_account: !include google_service_account.json
   report_state: true
-  secure_devices_pin: !secret devices_pin
   exposed_domains:
     - switch
     - light
-    - lock
   entity_config:
     switch.sonoff_sonoff:
       name: Bin Lights
@@ -85,7 +83,8 @@ google_assistant:
       name: Front Gate
     switch.garage_garage:
       name: Garage Door
-    
+    light.wled:
+      name: Workbench Lights
   
 binary_sensor:
 - platform: workday
