@@ -354,6 +354,9 @@
   - service: notify.telegram_brenton
     data:
       message: Home Assistant Has Restarted
+  - service: notify.telegram_amy
+    data:
+      message: Home Assistant Has Restarted
   mode: single
 - id: '1620816528027'
   alias: Low battery level detection & notification for all battery sensors
