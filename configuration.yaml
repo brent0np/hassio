@@ -56,15 +56,15 @@ notify:
 webhook:
 
 # Switch config for Kogan Smart Plug
-switch:
-  - platform: mqtt
-    name: "living_lamp"
-    state_topic: "stat/living_lamp/POWER"
-    command_topic: "cmnd/living_lamp/POWER"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: true
+#switch:
+#  - platform: mqtt
+#    name: "living_lamp"
+#    state_topic: "stat/living_lamp/POWER"
+#    command_topic: "cmnd/living_lamp/POWER"
+#    qos: 1
+#    payload_on: "ON"
+#    payload_off: "OFF"
+#    retain: true
 
 #Google Assitant Config
 google_assistant:
