@@ -1,24 +1,15 @@
-
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 frontend:
   themes: !include themes.yaml
   extra_module_url:
     - \config\www\community\lovelace-card-mod/card-mod.js
-
 media_extractor:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-http:
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
-
-# Zigbee2mqtt MQTT Broker Config
-mqtt:
-  broker: homeassistant # This will have to be your mqtt broker, Mosquitto addon is recommended.
-  discovery: true
-  username: brenton
-  password: !secret mqtt_password
+#http:
+#  ssl_certificate: /ssl/fullchain.pem
+#  ssl_key: /ssl/privkey.pem
 
 # Zigbee2MQTT Card
 input_boolean:
@@ -54,37 +45,6 @@ notify:
     chat_id: !secret amy_chatid
     
 webhook:
-
-# Switch config for Kogan Smart Plug
-#switch:
-#  - platform: mqtt
-#    name: "living_lamp"
-#    state_topic: "stat/living_lamp/POWER"
-#    command_topic: "cmnd/living_lamp/POWER"
-#    qos: 1
-#    payload_on: "ON"
-#    payload_off: "OFF"
-#    retain: true
-
-#Google Assitant Config
-google_assistant:
-  project_id: berylhassio
-  service_account: !include google_service_account.json
-  report_state: true
-  exposed_domains:
-    - switch
-    - light
-  entity_config:
-    switch.sonoff_sonoff:
-      name: Bin Lights
-    switch.living_lamp:
-      name: Living Room Lamp
-    switch.gate:
-      name: Front Gate
-    switch.garage_garage:
-      name: Garage Door
-    light.wled:
-      name: Workbench Lights
   
 binary_sensor:
 - platform: workday
