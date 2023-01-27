@@ -262,9 +262,9 @@
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.doorbell_ringing_sensor
-    from: 'False'
-    to: 'True'
+    - binary_sensor.doorbell_ringing
+    from: 'off'
+    to: 'on'
   condition:
   - condition: time
     after: 07:00:00
@@ -308,14 +308,12 @@
     below: 21
   condition: []
   action:
-  - service: notify.mobile_app_s21_5g_ultra
+  - service: notify.telegram_brenton
     data:
-      title: BATTERY ALERT
-      message: Doorbell Battery Below 20%
-  - service: notify.mobile_app_amys_iphone
+      message: Doorbell battery low
+  - service: notify.telegram_amy
     data:
-      title: BATTERY ALERT
-      message: Doorbell Battery Below 20%
+      message: Doorbell battery low
   mode: single
 - id: '1615545032487'
   alias: Aqara Magic Cube (Z2M)
@@ -435,4 +433,69 @@
   - service: notify.telegram_brenton
     data:
       message: Amy Left Ballet
+  mode: single
+- id: '1673573293372'
+  alias: Downstairs Toilet
+  description: ''
+  trigger:
+  - type: not_plugged_in
+    platform: device
+    device_id: c1fe4083e9de92f6dbc866c88fd0c543
+    entity_id: binary_sensor.sm_g998b_is_charging
+    domain: binary_sensor
+  condition:
+  - condition: time
+    before: '10:00:00'
+    after: 05:00:00
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+  - condition: and
+    conditions:
+    - condition: device
+      device_id: c1fe4083e9de92f6dbc866c88fd0c543
+      domain: device_tracker
+      entity_id: device_tracker.s21_5g_ultra
+      type: is_home
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.genio_adaptor_socket
+  mode: single
+- id: '1673692518809'
+  alias: Old Desk Power Toggle with Button
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: da78e66be990f09dc3d566b348eee1fd
+    type: action
+    subtype: single
+    discovery_id: 0x00158d00024a4111 action_single
+  condition: []
+  action:
+  - type: toggle
+    device_id: 07c1f5caf0bde7e13d1e717bbf06ecc8
+    entity_id: switch.genio_adaptor_2_socket
+    domain: switch
+  mode: single
+- id: '1674194478166'
+  alias: Send a notification when Amy leaves SHSS
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: device_tracker.amys_iphone
+    zone: zone.shss
+    event: leave
+  condition: []
+  action:
+  - service: notify.telegram_brenton
+    data:
+      message: Amy Left SHSS
   mode: single
