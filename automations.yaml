@@ -218,10 +218,9 @@
   condition: []
   action:
   - type: turn_on
-    device_id: 270ea5dca78f1a6a86b21ff6248349f7
-    entity_id: light.wi_fi_led_bulb_bayonet_fitting
+    device_id: bf33d5b97d2f36faa01d38efe554ccc1
+    entity_id: light.garage_light
     domain: light
-    brightness_pct: 100
   - type: turn_on
     device_id: 1cd83f6cb7729f6d7a5ec4e13dc3b626
     entity_id: light.wled
@@ -229,8 +228,8 @@
     brightness_pct: 100
   - delay: 00:04:00
   - type: turn_off
-    device_id: 270ea5dca78f1a6a86b21ff6248349f7
-    entity_id: light.wi_fi_led_bulb_bayonet_fitting
+    device_id: bf33d5b97d2f36faa01d38efe554ccc1
+    entity_id: light.garage_light
     domain: light
   - type: turn_off
     device_id: 1cd83f6cb7729f6d7a5ec4e13dc3b626
@@ -295,6 +294,21 @@
   - service: notify.telegram_brenton
     data:
       message: Doorbell Pressed
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.nesthub19fd
+    data:
+      media_content_id: media-source://media_source/local/Doorbell-ring-chime.mp3
+      media_content_type: audio/mpeg
+    metadata:
+      title: Doorbell-ring-chime.mp3
+      thumbnail:
+      media_class: music
+      children_media_class:
+      navigateIds:
+      - {}
+      - media_content_type: app
+        media_content_id: media-source://media_source
   mode: single
 - id: '1611535302798'
   alias: Doorbell Below 20 percent battery
@@ -466,7 +480,7 @@
   - service: switch.turn_on
     data: {}
     target:
-      entity_id: switch.genio_adaptor_socket
+      entity_id: switch.downstairs_bathroom
   mode: single
 - id: '1673692518809'
   alias: Old Desk Power Toggle with Button
@@ -481,8 +495,8 @@
   condition: []
   action:
   - type: toggle
-    device_id: 07c1f5caf0bde7e13d1e717bbf06ecc8
-    entity_id: switch.genio_adaptor_2_socket
+    device_id: b363dfa1c54bc13ae659115773b22ca5
+    entity_id: switch.old_desk
     domain: switch
   mode: single
 - id: '1674194478166'
@@ -498,4 +512,47 @@
   - service: notify.telegram_brenton
     data:
       message: Amy Left SHSS
+  mode: single
+- id: '1674858846146'
+  alias: Home assistant restart on Internet failure
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.technicolor_cobraxh_2231je62c_wan_status
+    to: 'off'
+    from: 'on'
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  condition:
+  - type: is_value
+    condition: device
+    device_id: 378990ed93e815f15c00620522654cd1
+    entity_id: sensor.technicolor_cobraxh_2231je62c_uptime
+    domain: sensor
+    above: 400
+  action:
+  - service: notify.telegram_brenton
+    data:
+      message: Home Assistant Restarting due to Internet Outage
+  - service: notify.telegram_amy
+    data:
+      message: Home Assistant Restarting due to Internet Outage
+  - service: hassio.host_reboot
+    data: {}
+  mode: single
+- id: '1676079508362'
+  alias: Turn on TV and Soundbar at 6am
+  description: ''
+  trigger:
+  - platform: time
+    at: 06:00:00
+  condition: []
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.tv
   mode: single
