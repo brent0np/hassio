@@ -1,16 +1,3 @@
-# MQTT platform entity displayed in zigbee2mqtt card
-#- platform: mqtt
-#  name: Bridge state
-#  state_topic: "zigbee2mqtt/bridge/state"
-#  icon: mdi:router-wireless
-
-# Power Consumption for kogan smart plug that controls lamp
-#- platform: mqtt
-#  name: "living_lamp Power Consumption"
-#  state_topic: "tele/living_lamp/SENSOR"
-#  value_template: "{{ value_json.ENERGY.Power }}"
-#  unit_of_measurement: "Watts"
-
 # System Monitor Status for Raspberry Pi 3+
 - platform: systemmonitor
   resources:
@@ -26,3 +13,14 @@
   - type: load_15m
   - type: last_boot
   - type: processor_temperature
+
+#Wind Direction Sensor
+
+- platform: template
+  sensors:
+    wind_direction:
+      friendly_name: Wind Direction
+      value_template: >
+        {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'] %}
+        {% set degree = states('sensor.gw1100c_v2_1_4_wind_direction')|float %}
+        {{ direction[((degree+11.25)/22.5)|int] }}
