@@ -46,13 +46,6 @@ notify:
     
 webhook:
   
-binary_sensor:
-- platform: workday
-  country: AU
-  province: QLD
-  workdays: [mon, tue, wed, thu, fri]
-  excludes: [sat, sun]
-
 #Sonos Cloud
 sonos_cloud:
   client_id: !secret sonos_id
