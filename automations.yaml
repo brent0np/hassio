@@ -98,9 +98,9 @@
     at: '23:55:00'
   condition:
   - condition: device
-    device_id: c1fe4083e9de92f6dbc866c88fd0c543
+    device_id: b023cc1a20dfca597b8518d853df43ff
     domain: device_tracker
-    entity_id: device_tracker.s21_5g_ultra
+    entity_id: device_tracker.sm_s918b
     type: is_not_home
   - condition: device
     device_id: b3cd29707da14763a6a18f523b4996e7
@@ -133,9 +133,9 @@
     entity_id: device_tracker.amys_iphone
     type: is_not_home
   - condition: device
-    device_id: c1fe4083e9de92f6dbc866c88fd0c543
+    device_id: b023cc1a20dfca597b8518d853df43ff
     domain: device_tracker
-    entity_id: device_tracker.s21_5g_ultra
+    entity_id: device_tracker.sm_s918b
     type: is_not_home
   action:
   - service: notify.telegram_brenton
@@ -197,9 +197,9 @@
     to: 'PUBG: BATTLEGROUNDS'
   condition:
   - condition: device
-    device_id: c1fe4083e9de92f6dbc866c88fd0c543
+    device_id: b023cc1a20dfca597b8518d853df43ff
     domain: device_tracker
-    entity_id: device_tracker.s21_5g_ultra
+    entity_id: device_tracker.sm_s918b
     type: is_home
   action:
   - service: notify.telegram_brenton
@@ -246,9 +246,9 @@
     to: 'PUBG: BATTLEGROUNDS'
   condition:
   - condition: device
-    device_id: c1fe4083e9de92f6dbc866c88fd0c543
+    device_id: b023cc1a20dfca597b8518d853df43ff
     domain: device_tracker
-    entity_id: device_tracker.s21_5g_ultra
+    entity_id: device_tracker.sm_s918b
     type: is_home
   action:
   - service: notify.telegram_brenton
@@ -452,11 +452,11 @@
   alias: Downstairs Toilet
   description: ''
   trigger:
-  - type: not_plugged_in
-    platform: device
-    device_id: c1fe4083e9de92f6dbc866c88fd0c543
-    entity_id: binary_sensor.sm_g998b_is_charging
-    domain: binary_sensor
+  - platform: state
+    entity_id:
+    - sensor.sm_s918b_charger_type
+    from: wireless
+    to: none
   condition:
   - condition: time
     before: '10:00:00'
@@ -472,9 +472,9 @@
   - condition: and
     conditions:
     - condition: device
-      device_id: c1fe4083e9de92f6dbc866c88fd0c543
+      device_id: b023cc1a20dfca597b8518d853df43ff
       domain: device_tracker
-      entity_id: device_tracker.s21_5g_ultra
+      entity_id: device_tracker.sm_s918b
       type: is_home
   action:
   - service: switch.turn_on
@@ -555,4 +555,74 @@
     data: {}
     target:
       entity_id: switch.tv
+  mode: single
+- id: '1682830820881'
+  alias: garage 4gang button 1 top left
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 3d7276eadc381173efdf6b284988c5b5
+    type: action
+    subtype: 1_single
+    discovery_id: 0x70ac08fffe1848fe action_1_single
+  condition: []
+  action:
+  - type: turn_on
+    device_id: eb3cdd2cc67148b4a88d3d79d656b2e4
+    entity_id: switch.gate
+    domain: switch
+  mode: single
+- id: '1682831968090'
+  alias: garage 4gang button 2 top right
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 3d7276eadc381173efdf6b284988c5b5
+    type: action
+    subtype: 2_single
+    discovery_id: 0x70ac08fffe1848fe action_2_single
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 00fd17ab45254f3d9086abb44c4790e8
+    entity_id: switch.garage_garage
+    domain: switch
+  mode: single
+- id: '1682832062393'
+  alias: garage 4gang button 4 bottom right
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 3d7276eadc381173efdf6b284988c5b5
+    type: action
+    subtype: 4_single
+    discovery_id: 0x70ac08fffe1848fe action_4_single
+  condition: []
+  action:
+  - service: script.walking_gate_access
+    data: {}
+  mode: single
+- id: '1682832133210'
+  alias: garage 4gang button 3 bottom left
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 3d7276eadc381173efdf6b284988c5b5
+    type: action
+    subtype: 3_single
+    discovery_id: 0x70ac08fffe1848fe action_3_single
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 00fd17ab45254f3d9086abb44c4790e8
+    entity_id: switch.garage_garage
+    domain: switch
+  - type: turn_on
+    device_id: eb3cdd2cc67148b4a88d3d79d656b2e4
+    entity_id: switch.gate
+    domain: switch
   mode: single
