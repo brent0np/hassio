@@ -15,7 +15,6 @@
   - type: processor_temperature
 
 #Wind Direction Sensor
-
 - platform: template
   sensors:
     wind_direction:
