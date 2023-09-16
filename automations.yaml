@@ -281,13 +281,13 @@
       device_id: c8298f9f543e476480d749821e2a9049
   - service: media_player.play_media
     data:
-      media_content_id: https://5rc5out7od98uk1629p0sq36t2n3xg8r.ui.nabu.casa/local/Doorbell-ring-chime.mp3
+      media_content_id: https://192.168.0.250:8123/local/Doorbell-ring-chime.mp3
       media_content_type: music
     target:
       entity_id: media_player.office_2
   - service: media_player.play_media
     data:
-      media_content_id: https://5rc5out7od98uk1629p0sq36t2n3xg8r.ui.nabu.casa/local/Doorbell-ring-chime.mp3
+      media_content_id: https://192.168.0.250:8123/local/Doorbell-ring-chime.mp3
       media_content_type: music
     target:
       entity_id: media_player.living_room_2
@@ -625,4 +625,18 @@
     device_id: eb3cdd2cc67148b4a88d3d79d656b2e4
     entity_id: switch.gate
     domain: switch
+  mode: single
+- id: '1690536286960'
+  alias: Samsung Phone DND
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.sm_s918b_charger_type
+    to: Wireless
+  condition:
+  - condition: zone
+    entity_id: device_tracker.sm_s918b
+    zone: zone.home
+  action: []
   mode: single
