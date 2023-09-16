@@ -626,17 +626,3 @@
     entity_id: switch.gate
     domain: switch
   mode: single
-- id: '1690536286960'
-  alias: Samsung Phone DND
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - sensor.sm_s918b_charger_type
-    to: Wireless
-  condition:
-  - condition: zone
-    entity_id: device_tracker.sm_s918b
-    zone: zone.home
-  action: []
-  mode: single
