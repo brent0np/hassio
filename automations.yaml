@@ -128,9 +128,9 @@
       seconds: 0
   condition:
   - condition: device
-    device_id: b3cd29707da14763a6a18f523b4996e7
+    device_id: a587766b377f05ce94ac39768b0e4a79
     domain: device_tracker
-    entity_id: device_tracker.amys_iphone
+    entity_id: 5243760f9f4a8b6cba974a70d06d7a27
     type: is_not_home
   - condition: device
     device_id: b023cc1a20dfca597b8518d853df43ff
@@ -625,4 +625,18 @@
     device_id: eb3cdd2cc67148b4a88d3d79d656b2e4
     entity_id: switch.gate
     domain: switch
+  mode: single
+- id: '1697101047187'
+  alias: Send a notification when Amy leaves Bunnings Logan Road
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.amy_d
+    zone: zone.bunnings_logan_road
+    event: leave
+  condition: []
+  action:
+  - service: notify.telegram_brenton
+    data:
+      message: Amy Left Bunnings Logan Road
   mode: single
