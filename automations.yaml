@@ -55,6 +55,7 @@
     target:
       device_id:
       - 0f2f10ab47d46ff93e7897466847c01f
+      - be40afa998be467b858984699a3a4e2e
 - id: '1588724019082'
   alias: send notification when Amy D leaves Dar's House
   description: ''
@@ -89,29 +90,6 @@
   - service: notify.telegram_amy
     data:
       message: Garage Door may have been open for 20+ minutes
-  mode: single
-- id: '1600659867634'
-  alias: switch off living_lamp when its midnight and no one is home
-  description: ''
-  trigger:
-  - platform: time
-    at: '23:55:00'
-  condition:
-  - condition: device
-    device_id: b023cc1a20dfca597b8518d853df43ff
-    domain: device_tracker
-    entity_id: device_tracker.sm_s918b
-    type: is_not_home
-  - condition: device
-    device_id: b3cd29707da14763a6a18f523b4996e7
-    domain: device_tracker
-    entity_id: device_tracker.amys_iphone
-    type: is_not_home
-  action:
-  - service: switch.turn_off
-    data: {}
-    target:
-      device_id: 0f2f10ab47d46ff93e7897466847c01f
   mode: single
 - id: '1600726741112'
   alias: Garage open nobody home
@@ -639,4 +617,47 @@
   - service: notify.telegram_brenton
     data:
       message: Amy Left Bunnings Logan Road
+  mode: single
+- id: '1699958529662'
+  alias: Test Fan Automation
+  description: ''
+  trigger:
+  - type: temperature
+    platform: device
+    device_id: f550b8f109ed483593052f66391dc144
+    entity_id: c5a60a93a9f0d9468e5fa94f70c05081
+    domain: sensor
+    below: 23.9
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 1
+  condition: []
+  action:
+  - service: fan.turn_off
+    data: {}
+    target:
+      device_id: 270ba07ee9c531c776784183e5c91018
+  - service: notify.telegram_brenton
+    data:
+      message: fan turned off due to temp
+  mode: single
+- id: '1700993848087'
+  alias: Switch off lamp at mdnight when no one is home
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:57:00'
+  condition:
+  - condition: state
+    entity_id: device_tracker.sm_s918b
+    state: not_home
+  - condition: state
+    entity_id: device_tracker.amy_iphone
+    state: not_home
+  action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      device_id: 0f2f10ab47d46ff93e7897466847c01f
   mode: single
