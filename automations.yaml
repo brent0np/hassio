@@ -55,7 +55,6 @@
     target:
       device_id:
       - 0f2f10ab47d46ff93e7897466847c01f
-      - be40afa998be467b858984699a3a4e2e
 - id: '1588724019082'
   alias: send notification when Amy D leaves Dar's House
   description: ''
@@ -627,7 +626,7 @@
     device_id: f550b8f109ed483593052f66391dc144
     entity_id: c5a60a93a9f0d9468e5fa94f70c05081
     domain: sensor
-    below: 23.9
+    below: 24
     for:
       hours: 0
       minutes: 0
