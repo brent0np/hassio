@@ -660,3 +660,86 @@
     target:
       device_id: 0f2f10ab47d46ff93e7897466847c01f
   mode: single
+- id: '1705236745757'
+  alias: frigate garage notification
+  description: ''
+  use_blueprint:
+    path: SgtBatten/Stable.yaml
+    input:
+      camera: camera.garage
+      notify_device: b023cc1a20dfca597b8518d853df43ff
+      message: A Person was detected in the Garage
+      attachment: snapshot
+      alert_once: true
+      update_thumbnail: true
+- id: '1705365705857'
+  alias: turn off office fan if Brenton leaves home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - person.brenton_p
+    from: home
+    to:
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  condition:
+  - condition: and
+    conditions:
+    - condition: device
+      type: is_on
+      device_id: 9e6e58e10275b845f8ecbc032b2931ab
+      entity_id: 60f03f25047b4389da9e97e8a5aa83b0
+      domain: switch
+  action:
+  - type: turn_off
+    device_id: 9e6e58e10275b845f8ecbc032b2931ab
+    entity_id: 60f03f25047b4389da9e97e8a5aa83b0
+    domain: switch
+  - service: notify.telegram_brenton
+    metadata: {}
+    data:
+      message: Office fan turned off due to not being home
+  mode: single
+- id: '1705366140010'
+  alias: turn parents fan off if nobody home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - fan.parents_bedroom_fan
+    attribute: 'on'
+  condition:
+  - condition: not
+    conditions:
+    - condition: zone
+      entity_id: person.brenton_p
+      zone: zone.home
+    - condition: zone
+      entity_id: person.amy_d
+      zone: zone.home
+  action:
+  - service: fan.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: 270ba07ee9c531c776784183e5c91018
+  - service: notify.telegram_brenton
+    metadata: {}
+    data:
+      message: parents fan turned off as no parent home
+  mode: single
+- id: '1705488904818'
+  alias: frigate notification amy
+  description: ''
+  use_blueprint:
+    path: SgtBatten/Stable.yaml
+    input:
+      camera: camera.garage
+      notify_device: a587766b377f05ce94ac39768b0e4a79
+      message: A Person was detected in the Garage
+      attachment: snapshot
+      alert_once: true
+      update_thumbnail: true

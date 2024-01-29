@@ -66,10 +66,11 @@ tts
 ddons_config/filebrowser/filebrowser.dB
 addons_config/filebrowser/filebrowser.dB
 zigbeecode.txt
-www/community/custom-sonos-card/custom-sonos-card.js
-www/community/custom-sonos-card/custom-sonos-card.js.gz
-www/community/lovelace-slider-entity-row/rollup.config.js
-www/community/lovelace-slider-entity-row/rollup.config.js.gz
-www/community/lovelace-slider-entity-row/slider-entity-row.js
-www/community/lovelace-slider-entity-row/slider-entity-row.js.gz
+www/community/custom-sonos-card/
+www/community/lovelace-slider-entity-row/
 blueprints/automation/Blackshome/temperature-control-exhaust-fan.yaml
+frigate.yaml
+www/community/
+esphome/
+addons_config/
+/blueprints/
