@@ -46,3 +46,11 @@ www/community/
 esphome/
 addons_config/
 blueprints/
+.timeline
+.vacuum
+frigate.db
+frigate.db-shm
+frigate.db-wal
+www/community/comfortable-environment-card/comfortable-environment-card.js
+www/community/comfortable-environment-card/comfortable-environment-card.js.gz
+www/community/comfortable-environment-card/comfortable-environment-card.js

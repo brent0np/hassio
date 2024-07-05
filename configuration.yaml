@@ -4,7 +4,7 @@ frontend:
   themes: !include themes.yaml
   extra_module_url:
     - \config\www\community\lovelace-card-mod/card-mod.js
-media_extractor:
+#media_extractor:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 #http:

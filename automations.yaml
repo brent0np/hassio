@@ -53,8 +53,7 @@
   - data: {}
     service: switch.turn_on
     target:
-      device_id:
-      - 0f2f10ab47d46ff93e7897466847c01f
+      device_id: f4ca7d8dbe0492ce6809a09055ff5df2
 - id: '1588724019082'
   alias: send notification when Amy D leaves Dar's House
   description: ''
@@ -110,9 +109,9 @@
     entity_id: 5243760f9f4a8b6cba974a70d06d7a27
     type: is_not_home
   - condition: device
-    device_id: b023cc1a20dfca597b8518d853df43ff
+    device_id: 35327bc1904a1b86090d14e277e289b6
     domain: device_tracker
-    entity_id: device_tracker.sm_s918b
+    entity_id: 017ac5689913c3d12ff377975af13d5a
     type: is_not_home
   action:
   - service: notify.telegram_brenton
@@ -174,9 +173,9 @@
     to: 'PUBG: BATTLEGROUNDS'
   condition:
   - condition: device
-    device_id: b023cc1a20dfca597b8518d853df43ff
+    device_id: 35327bc1904a1b86090d14e277e289b6
     domain: device_tracker
-    entity_id: device_tracker.sm_s918b
+    entity_id: 017ac5689913c3d12ff377975af13d5a
     type: is_home
   action:
   - service: notify.telegram_brenton
@@ -198,6 +197,11 @@
     device_id: bf33d5b97d2f36faa01d38efe554ccc1
     entity_id: light.garage_light
     domain: light
+  - device_id: 1cd83f6cb7729f6d7a5ec4e13dc3b626
+    domain: select
+    entity_id: 3f3f72a5370c9bcdc3f06ae055266f9a
+    type: select_option
+    option: Preset 1
   - type: turn_on
     device_id: 1cd83f6cb7729f6d7a5ec4e13dc3b626
     entity_id: light.wled
@@ -223,9 +227,9 @@
     to: 'PUBG: BATTLEGROUNDS'
   condition:
   - condition: device
-    device_id: b023cc1a20dfca597b8518d853df43ff
+    device_id: 35327bc1904a1b86090d14e277e289b6
     domain: device_tracker
-    entity_id: device_tracker.sm_s918b
+    entity_id: 017ac5689913c3d12ff377975af13d5a
     type: is_home
   action:
   - service: notify.telegram_brenton
@@ -370,9 +374,8 @@
   - platform: device
     domain: mqtt
     device_id: 03082386f0a7233cb7b20647ab0a162e
-    type: click
+    type: action
     subtype: single
-    discovery_id: 0x00158d00024a36fd click_single
   condition: []
   action:
   - type: turn_on
@@ -431,12 +434,21 @@
   trigger:
   - platform: state
     entity_id:
-    - sensor.sm_s918b_charger_type
+    - sensor.s23ultra_charger_type
     from: wireless
     to: none
+  - platform: device
+    type: turned_off
+    device_id: 08d43b4e7735c67cb5915be2265976bd
+    entity_id: a280bf19eb3199bc5f71c258095ed3c5
+    domain: switch
+    for:
+      hours: 5
+      minutes: 0
+      seconds: 0
   condition:
   - condition: time
-    before: '10:00:00'
+    before: 09:00:00
     after: 05:00:00
     weekday:
     - sun
@@ -449,9 +461,9 @@
   - condition: and
     conditions:
     - condition: device
-      device_id: b023cc1a20dfca597b8518d853df43ff
+      device_id: 35327bc1904a1b86090d14e277e289b6
       domain: device_tracker
-      entity_id: device_tracker.sm_s918b
+      entity_id: 017ac5689913c3d12ff377975af13d5a
       type: is_home
   action:
   - service: switch.turn_on
@@ -489,36 +501,6 @@
   - service: notify.telegram_brenton
     data:
       message: Amy Left SHSS
-  mode: single
-- id: '1674858846146'
-  alias: Home assistant restart on Internet failure
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - sensor.technicolor_cobraxh_2231je62c_wan_status
-    to: 'off'
-    from: 'on'
-    for:
-      hours: 0
-      minutes: 2
-      seconds: 0
-  condition:
-  - type: is_value
-    condition: device
-    device_id: 378990ed93e815f15c00620522654cd1
-    entity_id: sensor.technicolor_cobraxh_2231je62c_uptime
-    domain: sensor
-    above: 400
-  action:
-  - service: notify.telegram_brenton
-    data:
-      message: Home Assistant Restarting due to Internet Outage
-  - service: notify.telegram_amy
-    data:
-      message: Home Assistant Restarting due to Internet Outage
-  - service: hassio.host_reboot
-    data: {}
   mode: single
 - id: '1676079508362'
   alias: Turn on TV and Soundbar at 6am
@@ -649,7 +631,7 @@
     at: '23:57:00'
   condition:
   - condition: state
-    entity_id: device_tracker.sm_s918b
+    entity_id: device_tracker.s23ultra
     state: not_home
   - condition: state
     entity_id: device_tracker.amy_iphone
@@ -658,20 +640,30 @@
   - service: switch.turn_off
     data: {}
     target:
-      device_id: 0f2f10ab47d46ff93e7897466847c01f
+      device_id: f4ca7d8dbe0492ce6809a09055ff5df2
   mode: single
 - id: '1705236745757'
-  alias: frigate garage notification
+  alias: on_frontyard person notification frigate (Brenton)
   description: ''
   use_blueprint:
     path: SgtBatten/Stable.yaml
     input:
-      camera: camera.garage
-      notify_device: b023cc1a20dfca597b8518d853df43ff
-      message: A Person was detected in the Garage
-      attachment: snapshot
-      alert_once: true
+      camera: camera.frontyard
+      notify_device: 35327bc1904a1b86090d14e277e289b6
+      message: A person was detected inside the front gate
+      attachment: thumbnail
+      alert_once: false
       update_thumbnail: true
+      cooldown: 60
+      zone_filter: true
+      zone_multi: false
+      zones:
+      - on_frontyard
+      labels:
+      - person
+      silence_timer: 15
+      base_url: https://5rc5out7od98uk1629p0sq36t2n3xg8r.ui.nabu.casa/
+      critical: 'true'
 - id: '1705365705857'
   alias: turn off office fan if Brenton leaves home
   description: ''
@@ -713,13 +705,7 @@
     attribute: 'on'
   condition:
   - condition: not
-    conditions:
-    - condition: zone
-      entity_id: person.brenton_p
-      zone: zone.home
-    - condition: zone
-      entity_id: person.amy_d
-      zone: zone.home
+    conditions: []
   action:
   - service: fan.turn_off
     metadata: {}
@@ -731,15 +717,90 @@
     data:
       message: parents fan turned off as no parent home
   mode: single
-- id: '1705488904818'
-  alias: frigate notification amy
+- id: '1711284374165'
+  alias: At Bedtime turn on DND when on wireless charger
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.s23ultra_charger_type
+    from: none
+    to: wireless
+  condition:
+  - condition: device
+    device_id: 35327bc1904a1b86090d14e277e289b6
+    domain: device_tracker
+    entity_id: 017ac5689913c3d12ff377975af13d5a
+    type: is_home
+  - condition: time
+    after: '20:00:00'
+    before: 06:00:00
+    weekday:
+    - sat
+    - fri
+    - thu
+    - wed
+    - mon
+    - sun
+    - tue
+  action:
+  - service: notify.mobile_app_s23ultra
+    data:
+      data:
+        command: priority_only
+      message: command_dnd
+  mode: single
+- id: '1711455797092'
+  alias: Turn off dnd when removing from charger
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.s23ultra_charger_type
+    from: wireless
+    to: none
+  condition:
+  - condition: state
+    entity_id: person.brenton_p
+    state: home
+  - condition: time
+    after: '20:00:00'
+    before: 06:00:00
+    weekday:
+    - sat
+    - fri
+    - thu
+    - wed
+    - mon
+    - sun
+    - tue
+  action:
+  - service: notify.mobile_app_s23ultra
+    data:
+      message: command_dnd
+      data:
+        command: 'off'
+  mode: single
+- id: '1712057319734'
+  alias: on_frontyard person notification frigate (Amy)
   description: ''
   use_blueprint:
     path: SgtBatten/Stable.yaml
     input:
-      camera: camera.garage
+      camera: camera.frontyard
       notify_device: a587766b377f05ce94ac39768b0e4a79
-      message: A Person was detected in the Garage
-      attachment: snapshot
-      alert_once: true
+      message: A person was detected inside the front gate
+      attachment: thumbnail
+      alert_once: false
       update_thumbnail: true
+      cooldown: 60
+      zone_filter: true
+      zone_multi: false
+      zones:
+      - on_frontyard
+      labels:
+      - person
+      silence_timer: 15
+      base_url: https://5rc5out7od98uk1629p0sq36t2n3xg8r.ui.nabu.casa/
+      critical: 'false'
+      ios_live_view: true
