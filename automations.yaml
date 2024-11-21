@@ -242,7 +242,7 @@
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.doorbell_ringing
+    - binary_sensor.doorbell_ringing_2
     from: 'off'
     to: 'on'
   condition:
@@ -250,33 +250,32 @@
     after: 07:00:00
     before: '19:00:00'
   action:
-  - service: media_player.volume_set
-    data:
+  - data:
       volume_level: 0.35
     target:
       device_id: df7826a05dff431c826bff2bd7ceaea5
-  - service: media_player.volume_set
-    data:
+    action: media_player.volume_set
+  - data:
       volume_level: 0.6
     target:
       device_id: c8298f9f543e476480d749821e2a9049
-  - service: media_player.play_media
-    data:
+    action: media_player.volume_set
+  - data:
       media_content_id: https://192.168.0.250:8123/local/Doorbell-ring-chime.mp3
       media_content_type: music
     target:
       entity_id: media_player.office_2
-  - service: media_player.play_media
-    data:
+    action: media_player.play_media
+  - data:
       media_content_id: https://192.168.0.250:8123/local/Doorbell-ring-chime.mp3
       media_content_type: music
     target:
       entity_id: media_player.living_room_2
-  - service: notify.telegram_brenton
-    data:
+    action: media_player.play_media
+  - data:
       message: Doorbell Pressed
-  - service: media_player.play_media
-    target:
+    action: notify.telegram_brenton
+  - target:
       entity_id: media_player.nesthub19fd
     data:
       media_content_id: media-source://media_source/local/Doorbell-ring-chime.mp3
@@ -290,6 +289,7 @@
       - {}
       - media_content_type: app
         media_content_id: media-source://media_source
+    action: media_player.play_media
   mode: single
 - id: '1611535302798'
   alias: Doorbell Below 20 percent battery
@@ -297,18 +297,18 @@
   trigger:
   - type: battery_level
     platform: device
-    device_id: 806ced8a4cf1b1b0188c6095d5326892
-    entity_id: sensor.doorbell_battery
+    device_id: fcb8efc5d5320c1132372ca83aec0545
+    entity_id: fd507a2c3ca207f2fb8d016ccf33d32e
     domain: sensor
-    below: 21
+    below: 20
   condition: []
   action:
-  - service: notify.telegram_brenton
-    data:
+  - data:
       message: Doorbell battery low
-  - service: notify.telegram_amy
-    data:
+    action: notify.telegram_brenton
+  - data:
       message: Doorbell battery low
+    action: notify.telegram_amy
   mode: single
 - id: '1615545032487'
   alias: Aqara Magic Cube (Z2M)
@@ -431,14 +431,13 @@
 - id: '1673573293372'
   alias: Downstairs Toilet
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - sensor.s23ultra_charger_type
     from: wireless
     to: none
-  - platform: device
-    type: turned_off
+    trigger: state
+  - type: turned_off
     device_id: 08d43b4e7735c67cb5915be2265976bd
     entity_id: a280bf19eb3199bc5f71c258095ed3c5
     domain: switch
@@ -446,7 +445,8 @@
       hours: 5
       minutes: 0
       seconds: 0
-  condition:
+    trigger: device
+  conditions:
   - condition: time
     before: 09:00:00
     after: 05:00:00
@@ -465,11 +465,16 @@
       domain: device_tracker
       entity_id: 017ac5689913c3d12ff377975af13d5a
       type: is_home
-  action:
-  - service: switch.turn_on
-    data: {}
+  actions:
+  - data: {}
     target:
       entity_id: switch.downstairs_bathroom
+    action: switch.turn_on
+  - action: notify.telegram_brenton
+    metadata: {}
+    data:
+      message: '{{ states(''sensor.holland_park_extended_text_0'') }}'
+    alias: Send Weather Forecast
   mode: single
 - id: '1673692518809'
   alias: Old Desk Power Toggle with Button
@@ -599,30 +604,6 @@
     data:
       message: Amy Left Bunnings Logan Road
   mode: single
-- id: '1699958529662'
-  alias: Test Fan Automation
-  description: ''
-  trigger:
-  - type: temperature
-    platform: device
-    device_id: f550b8f109ed483593052f66391dc144
-    entity_id: c5a60a93a9f0d9468e5fa94f70c05081
-    domain: sensor
-    below: 24
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 1
-  condition: []
-  action:
-  - service: fan.turn_off
-    data: {}
-    target:
-      device_id: 270ba07ee9c531c776784183e5c91018
-  - service: notify.telegram_brenton
-    data:
-      message: fan turned off due to temp
-  mode: single
 - id: '1700993848087'
   alias: Switch off lamp at mdnight when no one is home
   description: ''
@@ -694,28 +675,6 @@
     metadata: {}
     data:
       message: Office fan turned off due to not being home
-  mode: single
-- id: '1705366140010'
-  alias: turn parents fan off if nobody home
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - fan.parents_bedroom_fan
-    attribute: 'on'
-  condition:
-  - condition: not
-    conditions: []
-  action:
-  - service: fan.turn_off
-    metadata: {}
-    data: {}
-    target:
-      device_id: 270ba07ee9c531c776784183e5c91018
-  - service: notify.telegram_brenton
-    metadata: {}
-    data:
-      message: parents fan turned off as no parent home
   mode: single
 - id: '1711284374165'
   alias: At Bedtime turn on DND when on wireless charger
@@ -804,3 +763,175 @@
       base_url: https://5rc5out7od98uk1629p0sq36t2n3xg8r.ui.nabu.casa/
       critical: 'false'
       ios_live_view: true
+- id: '1725018973949'
+  alias: Automatic Gate
+  description: ''
+  use_blueprint:
+    path: etiennec78/automatic-gate.yaml
+    input:
+      gate: switch.gate
+      lead_time: 90
+      eta_sensor: input_datetime.automatic_gate_planned_opening
+      persons:
+      - person.brenton_p
+      driving_sensors:
+      - binary_sensor.s23ultra_android_auto
+      travel_time_sensors:
+      - sensor.brenton_travel_time
+      proximity_sensors:
+      - sensor.home_brenton_p_distance
+      notify_devices:
+      - s23ultra
+      automatic_closing: 'off'
+      itinerary_sensors:
+      - input_text.sa_site_id
+- id: '1725018977327'
+  alias: Brenton_Auto Gate
+  description: ''
+  use_blueprint:
+    path: etiennec78/automatic-gate.yaml
+    input:
+      gate: switch.gate
+      lead_time: 90
+      eta_sensor: input_datetime.automatic_gate_planned_opening
+      persons:
+      - person.brenton_p
+      driving_sensors:
+      - binary_sensor.s23ultra_android_auto
+      travel_time_sensors:
+      - sensor.brenton_travel_time
+      proximity_sensors:
+      - sensor.home_brenton_p_distance
+      notify_devices:
+      - s23ultra
+      automatic_closing: 'off'
+      itinerary_sensors:
+      - input_text.sa_site_id
+- id: '1725679307620'
+  alias: Turn on gate after being 500m away from home
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.home_brenton_p_distance
+    above: 500
+  condition:
+  - condition: state
+    entity_id: binary_sensor.s23ultra_android_auto
+    state: 'on'
+  action:
+  - action: automation.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: automation.brenton_auto_gate
+  - action: notify.telegram_brenton
+    metadata: {}
+    data:
+      message: Gate automation turned on
+  mode: single
+- id: '1725846451602'
+  alias: Smoker over 275
+  description: ''
+  triggers:
+  - entity_id:
+    - sensor.probe_1
+    above: 275
+    trigger: numeric_state
+  conditions: []
+  actions:
+  - action: notify.telegram_brenton
+    metadata: {}
+    data:
+      message: Smoker outside range (high)
+  mode: single
+- id: '1725849141471'
+  alias: Smoker under 220
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.probe_1
+    below: 220
+  condition: []
+  action:
+  - action: notify.telegram_brenton
+    metadata: {}
+    data:
+      message: Smoker outside range (low)
+  mode: single
+- id: '1728303492577'
+  alias: Amy Weather Forecast When Unplugged
+  description: ''
+  triggers:
+  - entity_id:
+    - sensor.iphone_battery_state
+    from: Charging
+    to: Not Charging
+    trigger: state
+  conditions:
+  - condition: time
+    before: 09:00:00
+    after: 05:00:00
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+  - condition: and
+    conditions:
+    - condition: device
+      device_id: a587766b377f05ce94ac39768b0e4a79
+      domain: device_tracker
+      entity_id: 5243760f9f4a8b6cba974a70d06d7a27
+      type: is_home
+  actions:
+  - action: notify.telegram_amy
+    metadata: {}
+    data:
+      message: '{{ states(''sensor.holland_park_extended_text_0'') }}'
+    alias: Send Weather Forecast
+  mode: single
+- id: '1730028164949'
+  alias: Paul Black playing Splitgate
+  description: ''
+  triggers:
+  - entity_id:
+    - sensor.steam_76561197965532072
+    attribute: game
+    to: Splitgate
+    trigger: state
+  conditions:
+  - condition: device
+    device_id: 35327bc1904a1b86090d14e277e289b6
+    domain: device_tracker
+    entity_id: 017ac5689913c3d12ff377975af13d5a
+    type: is_home
+  actions:
+  - data:
+      message: Paul Black playing Splitgate
+    action: notify.telegram_brenton
+  mode: single
+- id: '1730028200827'
+  alias: Paul Oberman playing Splitgate
+  description: ''
+  triggers:
+  - entity_id:
+    - sensor.steam_76561198020324018
+    attribute: game
+    to: Splitgate
+    trigger: state
+  conditions:
+  - condition: device
+    device_id: 35327bc1904a1b86090d14e277e289b6
+    domain: device_tracker
+    entity_id: 017ac5689913c3d12ff377975af13d5a
+    type: is_home
+  actions:
+  - data:
+      message: Paul Oberman playing Splitgate
+    action: notify.telegram_brenton
+  mode: single

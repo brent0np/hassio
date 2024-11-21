@@ -53,4 +53,11 @@ frigate.db-shm
 frigate.db-wal
 www/community/comfortable-environment-card/comfortable-environment-card.js
 www/community/comfortable-environment-card/comfortable-environment-card.js.gz
+www/community/comfortable-environment-card/comfortable-environment-card.js.gz
 www/community/comfortable-environment-card/comfortable-environment-card.js
+backup.db
+backup_config.yaml
+www/community/comfortable-environment-card/comfortable-environment-card.js.gz
+www/community/comfortable-environment-card/comfortable-environment-card.js
+.jwt_secret
+.exports
