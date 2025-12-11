@@ -1,41 +1,49 @@
-# Configure a default setup of Home Assistant (frontend, api, etc)
-default_config:
-frontend:
-  themes: !include themes.yaml
-  extra_module_url:
-    - \config\www\community\lovelace-card-mod/card-mod.js
-#media_extractor:
+###############################################################
+# Home Assistant Main Configuration File
+# This file sets up integrations, automations, and customizations
+###############################################################
 
-# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# Default setup (frontend, API, etc.)
+default_config:
+
+# Frontend configuration
+frontend:
+  themes: !include themes.yaml  # Loads custom themes
+  extra_module_url:
+    - \config\www\community\lovelace-card-mod/card-mod.js  # Card mod for Lovelace UI
+#media_extractor:  # Uncomment to enable media extractor integration
+
+# Uncomment below if using SSL/TLS or running in Docker
 #http:
 #  ssl_certificate: /ssl/fullchain.pem
 #  ssl_key: /ssl/privkey.pem
 
-# Zigbee2MQTT Card
+# Zigbee2MQTT integration controls
 input_boolean:
   zigbee_permit_join:
-    name: Allow devices to join
+    name: Allow devices to join  # Toggle for Zigbee device joining
     initial: off
     icon: mdi:cellphone-wireless
-    
-# Timer for Zigbee2MQTT
+
+# Timer for Zigbee2MQTT device joining
 timer:
   zigbee_permit_join:
     name: Time remaining
     duration: 600 # Set timer to 600 seconds
 
-# Text to speech
+# Text-to-speech integration
 tts:
-  - platform: google_translate
+  - platform: google_translate  # Uses Google Translate for TTS
 
-#telegram notifications
-telegram_bot:
-  - platform: polling
-    api_key: !secret telegram_token
-    allowed_chat_ids:
-      - !secret brenton_chatid
-      - !secret amy_chatid
+# Telegram notifications (uncomment to enable)
+#telegram_bot:
+#  - platform: polling
+#    api_key: !secret telegram_token
+#    allowed_chat_ids:
+#      - !secret brenton_chatid
+#      - !secret amy_chatid
 
+# Notify configuration for Telegram
 notify:
   - name: telegram_brenton
     platform: telegram
@@ -43,14 +51,58 @@ notify:
   - name: telegram_amy
     platform: telegram
     chat_id: !secret amy_chatid
-    
+
+# Enables webhook support
 webhook:
+
+# Home Assistant customizations
+homeassistant:
+  customize:
+    # Set rain rate sensors to total_increasing state class
+    sensor.gw1100b_hourly_rain_rate:
+      state_class: total_increasing
+    sensor.gw1100b_daily_rain_rate:
+      state_class: total_increasing
+    sensor.gw1100b_weekly_rain_rate:
+      state_class: total_increasing
+    sensor.gw1100b_monthly_rain_rate:
+      state_class: total_increasing
+    sensor.gw1100b_yearly_rain_rate:
+      state_class: total_increasing
+    sensor.gw1100b_event_rain_rate:
+      state_class: total_increasing
+
+# Sonos Cloud integration
+sonos_cloud:
+  client_id: !secret sonos_id
+  client_secret: !secret sonos_secret
+
+# Include additional configuration files for modular setup
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+sensor: !include sensor.yaml
+  customize:
+    sensor.gw1100b_hourly_rain_rate:
+      state_class: total_increasing
+    sensor.gw1100b_daily_rain_rate:
+      state_class: total_increasing
+    sensor.gw1100b_weekly_rain_rate:
+      state_class: total_increasing
+    sensor.gw1100b_monthly_rain_rate:
+      state_class: total_increasing
+    sensor.gw1100b_yearly_rain_rate:
+      state_class: total_increasing
+    sensor.gw1100b_event_rain_rate:
+      state_class: total_increasing
   
 #Sonos Cloud
 sonos_cloud:
   client_id: !secret sonos_id
   client_secret: !secret sonos_secret
 
+# Include additional configuration files
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml

@@ -61,3 +61,5 @@ www/community/comfortable-environment-card/comfortable-environment-card.js.gz
 www/community/comfortable-environment-card/comfortable-environment-card.js
 .jwt_secret
 .exports
+home-assistant.log.old
+.ha_run.lock

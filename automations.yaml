@@ -42,18 +42,23 @@
     data:
       entity_id: input_boolean.zigbee_permit_join
 - id: '1587960507517'
-  alias: Turn on living room lamp
-  description: ''
-  trigger:
+  alias: Turn On Living Room Lamp Before Sunset
+  description: This automation turns on the living room lamp 20 minutes before sunset
+    to ensure the area is well-lit as evening approaches.
+  triggers:
   - event: sunset
     offset: -00:20:00
-    platform: sun
-  condition: []
-  action:
+    trigger: sun
+  conditions: []
+  actions:
   - data: {}
-    service: switch.turn_on
     target:
       device_id: f4ca7d8dbe0492ce6809a09055ff5df2
+    action: switch.turn_on
+  - data: {}
+    action: switch.turn_on
+    target:
+      device_id: be40afa998be467b858984699a3a4e2e
 - id: '1588724019082'
   alias: send notification when Amy D leaves Dar's House
   description: ''
@@ -68,9 +73,10 @@
       message: Amy Left Dar's House
     service: notify.telegram_brenton
 - id: '1591154308336'
-  alias: 20min garage open alert
-  description: ''
-  trigger:
+  alias: 20 Min Garage Open Alert
+  description: Send notifications if the garage door has been open for more than 20
+    minutes.
+  triggers:
   - device_id: 8e771c0b255d4b36bfcff005b44518a6
     domain: binary_sensor
     entity_id: binary_sensor.garage_door_sensor_contact
@@ -78,23 +84,23 @@
       hours: 0
       minutes: 20
       seconds: 0
-    platform: device
     type: opened
-  condition: []
-  action:
-  - service: notify.telegram_brenton
-    data:
+    trigger: device
+  conditions: []
+  actions:
+  - data:
       message: Garage Door may have been open for 20+ minutes
-  - service: notify.telegram_amy
-    data:
+    action: notify.telegram_brenton
+  - data:
       message: Garage Door may have been open for 20+ minutes
+    action: notify.telegram_amy
   mode: single
 - id: '1600726741112'
-  alias: Garage open nobody home
-  description: ''
-  trigger:
+  alias: Garage Door Open Alert When Nobody is Home
+  description: Send notifications to users when the garage door is opened while no
+    one is home.
+  triggers:
   - type: opened
-    platform: device
     device_id: 8e771c0b255d4b36bfcff005b44518a6
     entity_id: binary_sensor.garage_door_sensor_contact
     domain: binary_sensor
@@ -102,24 +108,25 @@
       hours: 0
       minutes: 1
       seconds: 0
-  condition:
+    trigger: device
+  conditions:
   - condition: device
-    device_id: a587766b377f05ce94ac39768b0e4a79
+    device_id: 10b0e5b86985c0641a5ac6c5ef5bb4ed
     domain: device_tracker
-    entity_id: 5243760f9f4a8b6cba974a70d06d7a27
+    entity_id: bf45a47ce9e1bc611141afab1b35bc35
     type: is_not_home
   - condition: device
-    device_id: 35327bc1904a1b86090d14e277e289b6
+    device_id: 180eca6a933d6b525f086faa78700270
     domain: device_tracker
-    entity_id: 017ac5689913c3d12ff377975af13d5a
+    entity_id: c4d973c477da533952cc9d19e4f06a19
     type: is_not_home
-  action:
-  - service: notify.telegram_brenton
-    data:
+  actions:
+  - data:
       message: Garage Door Open & Nobody is Home!
-  - service: notify.telegram_amy
-    data:
+    action: notify.telegram_brenton
+  - data:
       message: Garage Door Open & Nobody is Home!
+    action: notify.telegram_amy
   mode: single
 - id: '1601423365123'
   alias: send notification when Amy D leaves swimming
@@ -166,21 +173,21 @@
 - id: '1609243357632'
   alias: Paul Black PUBG notification
   description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.steam_76561197965532072
+  triggers:
+  - entity_id: sensor.steam_76561197965532072
     attribute: game
     to: 'PUBG: BATTLEGROUNDS'
-  condition:
+    trigger: state
+  conditions:
   - condition: device
-    device_id: 35327bc1904a1b86090d14e277e289b6
+    device_id: 180eca6a933d6b525f086faa78700270
     domain: device_tracker
-    entity_id: 017ac5689913c3d12ff377975af13d5a
+    entity_id: c4d973c477da533952cc9d19e4f06a19
     type: is_home
-  action:
-  - service: notify.telegram_brenton
-    data:
+  actions:
+  - data:
       message: Paul Black playing PUBG
+    action: notify.telegram_brenton
   mode: single
 - id: '1609551055556'
   alias: Garage light on when garage door opens
@@ -220,21 +227,21 @@
 - id: '1609822948132'
   alias: Paul Oberman PUBG notification
   description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.steam_76561198020324018
+  triggers:
+  - entity_id: sensor.steam_76561198020324018
     attribute: game
     to: 'PUBG: BATTLEGROUNDS'
-  condition:
+    trigger: state
+  conditions:
   - condition: device
-    device_id: 35327bc1904a1b86090d14e277e289b6
+    device_id: 180eca6a933d6b525f086faa78700270
     domain: device_tracker
-    entity_id: 017ac5689913c3d12ff377975af13d5a
+    entity_id: c4d973c477da533952cc9d19e4f06a19
     type: is_home
-  action:
-  - service: notify.telegram_brenton
-    data:
+  actions:
+  - data:
       message: Paul Oberman playing PUBG
+    action: notify.telegram_brenton
   mode: single
 - id: '1610622100020'
   alias: Use Sonos as Doorbell Chime if after 7am but before 7pm
@@ -433,7 +440,7 @@
   description: ''
   triggers:
   - entity_id:
-    - sensor.s23ultra_charger_type
+    - sensor.bps25ultra_charger_type
     from: wireless
     to: none
     trigger: state
@@ -461,9 +468,9 @@
   - condition: and
     conditions:
     - condition: device
-      device_id: 35327bc1904a1b86090d14e277e289b6
+      device_id: 180eca6a933d6b525f086faa78700270
       domain: device_tracker
-      entity_id: 017ac5689913c3d12ff377975af13d5a
+      entity_id: c4d973c477da533952cc9d19e4f06a19
       type: is_home
   actions:
   - data: {}
@@ -607,21 +614,21 @@
 - id: '1700993848087'
   alias: Switch off lamp at mdnight when no one is home
   description: ''
-  trigger:
-  - platform: time
-    at: '23:57:00'
-  condition:
+  triggers:
+  - at: '23:57:00'
+    trigger: time
+  conditions:
   - condition: state
-    entity_id: device_tracker.s23ultra
+    entity_id: device_tracker.bps25ultra
     state: not_home
   - condition: state
-    entity_id: device_tracker.amy_iphone
+    entity_id: device_tracker.amy_s23
     state: not_home
-  action:
-  - service: switch.turn_off
-    data: {}
+  actions:
+  - data: {}
     target:
       device_id: f4ca7d8dbe0492ce6809a09055ff5df2
+    action: switch.turn_off
   mode: single
 - id: '1705236745757'
   alias: on_frontyard person notification frigate (Brenton)
@@ -630,7 +637,7 @@
     path: SgtBatten/Stable.yaml
     input:
       camera: camera.frontyard
-      notify_device: 35327bc1904a1b86090d14e277e289b6
+      notify_device: 180eca6a933d6b525f086faa78700270
       message: A person was detected inside the front gate
       attachment: thumbnail
       alert_once: false
@@ -648,9 +655,8 @@
 - id: '1705365705857'
   alias: turn off office fan if Brenton leaves home
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - person.brenton_p
     from: home
     to:
@@ -658,7 +664,8 @@
       hours: 0
       minutes: 5
       seconds: 0
-  condition:
+    trigger: state
+  conditions:
   - condition: and
     conditions:
     - condition: device
@@ -666,30 +673,26 @@
       device_id: 9e6e58e10275b845f8ecbc032b2931ab
       entity_id: 60f03f25047b4389da9e97e8a5aa83b0
       domain: switch
-  action:
+  actions:
   - type: turn_off
     device_id: 9e6e58e10275b845f8ecbc032b2931ab
     entity_id: 60f03f25047b4389da9e97e8a5aa83b0
     domain: switch
-  - service: notify.telegram_brenton
-    metadata: {}
-    data:
-      message: Office fan turned off due to not being home
   mode: single
 - id: '1711284374165'
   alias: At Bedtime turn on DND when on wireless charger
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - sensor.s23ultra_charger_type
+  triggers:
+  - entity_id:
+    - sensor.bps25ultra_charger_type
     from: none
     to: wireless
-  condition:
+    trigger: state
+  conditions:
   - condition: device
-    device_id: 35327bc1904a1b86090d14e277e289b6
+    device_id: 180eca6a933d6b525f086faa78700270
     domain: device_tracker
-    entity_id: 017ac5689913c3d12ff377975af13d5a
+    entity_id: c4d973c477da533952cc9d19e4f06a19
     type: is_home
   - condition: time
     after: '20:00:00'
@@ -702,8 +705,8 @@
     - mon
     - sun
     - tue
-  action:
-  - service: notify.mobile_app_s23ultra
+  actions:
+  - action: notify.mobile_app_bps25ultra
     data:
       data:
         command: priority_only
@@ -712,19 +715,19 @@
 - id: '1711455797092'
   alias: Turn off dnd when removing from charger
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - sensor.s23ultra_charger_type
+  triggers:
+  - entity_id:
+    - sensor.bps25ultra_charger_type
     from: wireless
     to: none
-  condition:
+    trigger: state
+  conditions:
   - condition: state
     entity_id: person.brenton_p
     state: home
   - condition: time
     after: '20:00:00'
-    before: 06:00:00
+    before: 08:00:00
     weekday:
     - sat
     - fri
@@ -733,12 +736,12 @@
     - mon
     - sun
     - tue
-  action:
-  - service: notify.mobile_app_s23ultra
-    data:
+  actions:
+  - data:
       message: command_dnd
       data:
         command: 'off'
+    action: notify.mobile_app_bps25ultra
   mode: single
 - id: '1712057319734'
   alias: on_frontyard person notification frigate (Amy)
@@ -747,7 +750,7 @@
     path: SgtBatten/Stable.yaml
     input:
       camera: camera.frontyard
-      notify_device: a587766b377f05ce94ac39768b0e4a79
+      notify_device: 10b0e5b86985c0641a5ac6c5ef5bb4ed
       message: A person was detected inside the front gate
       attachment: thumbnail
       alert_once: false
@@ -760,12 +763,13 @@
       labels:
       - person
       silence_timer: 15
-      base_url: https://5rc5out7od98uk1629p0sq36t2n3xg8r.ui.nabu.casa/
+      base_url: !secret nabucasa_url
       critical: 'false'
       ios_live_view: true
 - id: '1725018973949'
-  alias: Automatic Gate
-  description: ''
+  alias: Brenton Auto Gate
+  description: This automation uses a blueprint to automatically open the gate when
+    Brenton approaches home, considering his travel time and driving status.
   use_blueprint:
     path: etiennec78/automatic-gate.yaml
     input:
@@ -831,7 +835,7 @@
       message: Gate automation turned on
   mode: single
 - id: '1725846451602'
-  alias: Smoker over 275
+  alias: Smoker over 285
   description: ''
   triggers:
   - entity_id:
@@ -844,28 +848,44 @@
     metadata: {}
     data:
       message: Smoker outside range (high)
+  - action: tts.speak
+    metadata: {}
+    data:
+      cache: true
+      message: Smoker over temperature
+      media_player_entity_id: media_player.nesthub19fd
+    target:
+      entity_id: tts.home_assistant_cloud
   mode: single
 - id: '1725849141471'
   alias: Smoker under 220
   description: ''
-  trigger:
-  - platform: numeric_state
-    entity_id:
+  triggers:
+  - entity_id:
     - sensor.probe_1
-    below: 220
-  condition: []
-  action:
+    below: 210
+    trigger: numeric_state
+  conditions: []
+  actions:
   - action: notify.telegram_brenton
     metadata: {}
     data:
       message: Smoker outside range (low)
+  - action: tts.speak
+    metadata: {}
+    data:
+      cache: true
+      media_player_entity_id: media_player.nesthub19fd
+      message: Smoker under temperature
+    target:
+      entity_id: tts.home_assistant_cloud
   mode: single
 - id: '1728303492577'
   alias: Amy Weather Forecast When Unplugged
   description: ''
   triggers:
   - entity_id:
-    - sensor.iphone_battery_state
+    - sensor.amy_s23_battery_state
     from: Charging
     to: Not Charging
     trigger: state
@@ -884,9 +904,9 @@
   - condition: and
     conditions:
     - condition: device
-      device_id: a587766b377f05ce94ac39768b0e4a79
+      device_id: 10b0e5b86985c0641a5ac6c5ef5bb4ed
       domain: device_tracker
-      entity_id: 5243760f9f4a8b6cba974a70d06d7a27
+      entity_id: bf45a47ce9e1bc611141afab1b35bc35
       type: is_home
   actions:
   - action: notify.telegram_amy
@@ -906,9 +926,9 @@
     trigger: state
   conditions:
   - condition: device
-    device_id: 35327bc1904a1b86090d14e277e289b6
+    device_id: 180eca6a933d6b525f086faa78700270
     domain: device_tracker
-    entity_id: 017ac5689913c3d12ff377975af13d5a
+    entity_id: c4d973c477da533952cc9d19e4f06a19
     type: is_home
   actions:
   - data:
@@ -926,12 +946,722 @@
     trigger: state
   conditions:
   - condition: device
-    device_id: 35327bc1904a1b86090d14e277e289b6
+    device_id: 180eca6a933d6b525f086faa78700270
     domain: device_tracker
-    entity_id: 017ac5689913c3d12ff377975af13d5a
+    entity_id: c4d973c477da533952cc9d19e4f06a19
     type: is_home
   actions:
   - data:
       message: Paul Oberman playing Splitgate
+    action: notify.telegram_brenton
+  mode: single
+- id: '1732422086063'
+  alias: Start Robot Vacuum After 48 Hours
+  description: This automation starts the robot vacuum if it hasn't run in the past
+    48 hours and certain conditions are met, including that no one is home and it's
+    daytime.
+  triggers:
+  - device_id: 10b0e5b86985c0641a5ac6c5ef5bb4ed
+    domain: device_tracker
+    entity_id: bf45a47ce9e1bc611141afab1b35bc35
+    type: leaves
+    trigger: device
+    zone: zone.home
+  - device_id: 180eca6a933d6b525f086faa78700270
+    domain: device_tracker
+    entity_id: c4d973c477da533952cc9d19e4f06a19
+    type: leaves
+    trigger: device
+    zone: zone.home
+  conditions:
+  - condition: template
+    value_template: '{{ (as_timestamp(now()) - as_timestamp(states(''sensor.mi_robot_vacuum_last_clean_start'')))
+      > 259200 }}'
+  - condition: not
+    conditions:
+    - condition: zone
+      entity_id: person.amy_d
+      zone: zone.home
+    - condition: zone
+      entity_id: person.brenton_p
+      zone: zone.home
+  - condition: time
+    after: 07:00:00
+    before: '18:00:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+  - condition: state
+    entity_id: binary_sensor.office_garage_door_contact
+    state: 'off'
+  actions:
+  - action: vacuum.start
+    metadata: {}
+    data: {}
+    target:
+      device_id: 83f99716dde04d4cf0c74f8574366014
+  - action: notify.telegram_brenton
+    metadata: {}
+    data:
+      message: Office Vacuum Started due to deadline
+  mode: single
+- id: '1737810572740'
+  alias: Pulled Pork Complete
+  description: ''
+  triggers:
+  - type: temperature
+    device_id: 14ac115b15bf565bcf865e7a602db8ba
+    entity_id: 3c05847ddca7ce38ee4f9c1880ecb5bb
+    domain: sensor
+    trigger: device
+    above: 199
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 1
+  conditions:
+  - type: is_temperature
+    condition: device
+    device_id: 14ac115b15bf565bcf865e7a602db8ba
+    entity_id: a6508d1dd26781ccf86c7fafff10fc7d
+    domain: sensor
+    above: 199
+  actions:
+  - type: turn_on
+    device_id: 270ba07ee9c531c776784183e5c91018
+    entity_id: 5859a512c236efb7d6a287e39e1964e2
+    domain: light
+    brightness_pct: 1
+  mode: single
+- id: '1738842459652'
+  alias: Parents Fan Temp Controller
+  description: Automation to control the fan speed based on the master bedroom temperature
+  triggers:
+  - entity_id: sensor.master_bedroom_temperature
+    trigger: state
+  conditions:
+  - condition: device
+    device_id: 270ba07ee9c531c776784183e5c91018
+    domain: fan
+    entity_id: e5464bbe4cd995f400528a88eb26274f
+    type: is_on
+  actions:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.master_bedroom_temperature
+        below: 20.9
+      sequence:
+      - target:
+          device_id: 270ba07ee9c531c776784183e5c91018
+        action: fan.turn_off
+        data: {}
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.master_bedroom_temperature
+        above: 20.8
+        below: 23.9
+      sequence:
+      - data:
+          percentage: 16.666666
+        target:
+          device_id: 270ba07ee9c531c776784183e5c91018
+        action: fan.set_percentage
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.master_bedroom_temperature
+        above: 23.8
+        below: 25.9
+      sequence:
+      - data:
+          percentage: 33.333333
+        target:
+          device_id: 270ba07ee9c531c776784183e5c91018
+        action: fan.set_percentage
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.master_bedroom_temperature
+        above: 25.8
+        below: 27.9
+      sequence:
+      - data:
+          percentage: 50
+        target:
+          device_id: 270ba07ee9c531c776784183e5c91018
+        action: fan.set_percentage
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.master_bedroom_temperature
+        above: 27.8
+        below: 29.9
+      sequence:
+      - data:
+          percentage: 66.666667
+        target:
+          device_id: 270ba07ee9c531c776784183e5c91018
+        action: fan.set_percentage
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.master_bedroom_temperature
+        above: 29.8
+        below: 31.9
+      sequence:
+      - data:
+          percentage: 83.333333
+        target:
+          device_id: 270ba07ee9c531c776784183e5c91018
+        action: fan.set_percentage
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.master_bedroom_temperature
+        above: 31.8
+      sequence:
+      - data:
+          percentage: 100
+        target:
+          device_id: 270ba07ee9c531c776784183e5c91018
+        action: fan.set_percentage
+  mode: single
+- id: '1739418412383'
+  alias: Kids Bedroom Fan Speed
+  description: Automation to control the fan speed based on the kids bedroom temperature
+  triggers:
+  - entity_id:
+    - sensor.kids_bedroom_temperature
+    trigger: state
+  conditions:
+  - condition: device
+    device_id: c22339fa7c99a12bb8856fb7b0777832
+    domain: fan
+    entity_id: 77a6f6b6a93ee6dcb3badd2e483578c1
+    type: is_on
+  actions:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.kids_bedroom_temperature
+        below: 20.9
+      sequence:
+      - action: fan.turn_off
+        data: {}
+        target:
+          device_id: c22339fa7c99a12bb8856fb7b0777832
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.kids_bedroom_temperature
+        above: 20.8
+        below: 23.9
+      sequence:
+      - data:
+          percentage: 16.666666
+        target:
+          device_id: c22339fa7c99a12bb8856fb7b0777832
+        action: fan.set_percentage
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.kids_bedroom_temperature
+        above: 23.8
+        below: 25.9
+      sequence:
+      - data:
+          percentage: 33.333333
+        target:
+          device_id: c22339fa7c99a12bb8856fb7b0777832
+        action: fan.set_percentage
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.kids_bedroom_temperature
+        above: 25.8
+        below: 27.9
+      sequence:
+      - data:
+          percentage: 50
+        target:
+          device_id: c22339fa7c99a12bb8856fb7b0777832
+        action: fan.set_percentage
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.kids_bedroom_temperature
+        above: 27.8
+        below: 29.9
+      sequence:
+      - data:
+          percentage: 66.666667
+        target:
+          device_id: c22339fa7c99a12bb8856fb7b0777832
+        action: fan.set_percentage
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.kids_bedroom_temperature
+        above: 29.8
+        below: 31.9
+      sequence:
+      - data:
+          percentage: 83.333333
+        target:
+          device_id: c22339fa7c99a12bb8856fb7b0777832
+        action: fan.set_percentage
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.kids_bedroom_temperature
+        above: 31.8
+      sequence:
+      - data:
+          percentage: 100
+        target:
+          device_id: c22339fa7c99a12bb8856fb7b0777832
+        action: fan.set_percentage
+  mode: single
+- id: '1739424005090'
+  alias: Turn parents fan off if not home after 5 mins
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - person.brenton_p
+    - person.amy_d
+    from: home
+    to:
+  conditions:
+  - condition: state
+    entity_id: fan.parents_bedroom_fan
+    state: 'on'
+  - condition: device
+    device_id: 10b0e5b86985c0641a5ac6c5ef5bb4ed
+    domain: device_tracker
+    entity_id: bf45a47ce9e1bc611141afab1b35bc35
+    type: is_not_home
+  - condition: device
+    device_id: 180eca6a933d6b525f086faa78700270
+    domain: device_tracker
+    entity_id: c4d973c477da533952cc9d19e4f06a19
+    type: is_not_home
+  actions:
+  - action: fan.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: 270ba07ee9c531c776784183e5c91018
+  mode: single
+- id: '1739618520554'
+  alias: Kids Bedroom Fan off if nobody home
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - person.brenton_p
+    - person.amy_d
+    from: home
+    to:
+  conditions:
+  - condition: state
+    entity_id: fan.kids_bedroom_fan
+    state: 'on'
+  - condition: device
+    device_id: 10b0e5b86985c0641a5ac6c5ef5bb4ed
+    domain: device_tracker
+    entity_id: bf45a47ce9e1bc611141afab1b35bc35
+    type: is_not_home
+  - condition: device
+    device_id: 180eca6a933d6b525f086faa78700270
+    domain: device_tracker
+    entity_id: c4d973c477da533952cc9d19e4f06a19
+    type: is_not_home
+  actions:
+  - action: fan.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: c22339fa7c99a12bb8856fb7b0777832
+  mode: single
+- id: '1742281691526'
+  alias: Amy Leaves tutoring
+  description: ''
+  triggers:
+  - entity_id: person.amy_d
+    zone: zone.tutoring
+    event: leave
+    trigger: zone
+  conditions: []
+  actions:
+  - data:
+      message: Amy Left Tutoring
+    action: notify.telegram_brenton
+  mode: single
+- id: '1744973474801'
+  alias: Garage Door Open Message
+  description: ''
+  triggers:
+  - type: opened
+    device_id: 8e771c0b255d4b36bfcff005b44518a6
+    entity_id: 740d5db23a03abad822f105842e1240a
+    domain: binary_sensor
+    trigger: device
+  conditions: []
+  actions:
+  - action: notify.telegram_amy
+    metadata: {}
+    data:
+      message: Garage Door Opened
+  - action: notify.telegram_brenton
+    metadata: {}
+    data:
+      message: Garage Door Opened
+  mode: single
+- id: '1744973518099'
+  alias: Garage Door Closed Message
+  description: ''
+  triggers:
+  - type: not_opened
+    device_id: 8e771c0b255d4b36bfcff005b44518a6
+    entity_id: 740d5db23a03abad822f105842e1240a
+    domain: binary_sensor
+    trigger: device
+  conditions: []
+  actions:
+  - action: notify.telegram_amy
+    metadata: {}
+    data:
+      message: Garage Door Closed
+  - action: notify.telegram_brenton
+    metadata: {}
+    data:
+      message: Garage Door Closed
+  mode: single
+- id: '1744974005839'
+  alias: Bedtime Button Turn Off Devices
+  description: ''
+  triggers:
+  - domain: mqtt
+    device_id: fca7e1d6bb0a88f36a536535803ead67
+    type: action
+    subtype: single
+    trigger: device
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: 23c82e2fef20e3a09c1de34f74d2c801
+    entity_id: fae07c567037995f6f14d3e2d74d4881
+    domain: switch
+  - type: turn_off
+    device_id: f4ca7d8dbe0492ce6809a09055ff5df2
+    entity_id: 19c604ef6277da752085f4a32c8054dc
+    domain: switch
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.garage_light
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: da02cd69aa20d281ee531494a0c6c6f2
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.gaming_pc
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: 08d43b4e7735c67cb5915be2265976bd
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.old_desk
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.printer
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.christmas_lights
+  - if:
+    - type: is_open
+      condition: device
+      device_id: 8e771c0b255d4b36bfcff005b44518a6
+      entity_id: 740d5db23a03abad822f105842e1240a
+      domain: binary_sensor
+    then:
+    - type: turn_on
+      device_id: 00fd17ab45254f3d9086abb44c4790e8
+      entity_id: dd3cdcd8f65eba81379854eda7d64c8f
+      domain: switch
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.outside_lights
+  mode: single
+- id: '1744974169547'
+  alias: Bedtime Button Double Click Turn On Devices
+  description: Activate multiple lights and switches with a double-click on the bedtime
+    button
+  triggers:
+  - domain: mqtt
+    device_id: fca7e1d6bb0a88f36a536535803ead67
+    type: action
+    subtype: double
+    trigger: device
+  conditions: []
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.outside_lights
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.garage_light
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.lamp_relay_1
+  - type: turn_on
+    device_id: 1cd83f6cb7729f6d7a5ec4e13dc3b626
+    entity_id: 0fcc4206fb5a25e20362dba4435d1d89
+    domain: light
+  mode: single
+- id: '1746912114978'
+  alias: Play Tony oconnor
+  description: ''
+  triggers:
+  - trigger: time
+    at: '18:30:00'
+  conditions:
+  - condition: or
+    conditions:
+    - condition: zone
+      entity_id: person.brenton_p
+      zone: zone.home
+    - condition: zone
+      entity_id: person.amy_d
+      zone: zone.home
+  actions:
+  - action: music_assistant.play_media
+    metadata: {}
+    data:
+      media_id: library://artist/57
+      enqueue: replace
+    target:
+      device_id: c07fcaa5c4262074b8d4325db8c441db
+  - delay:
+      hours: 12
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - action: media_player.media_stop
+    metadata: {}
+    data: {}
+    target:
+      device_id: c07fcaa5c4262074b8d4325db8c441db
+  mode: single
+- id: '1757398688040'
+  alias: Send a notification when Amy leaves SHSS
+  description: Notifies when Amy leaves Seven Hills State School.
+  triggers:
+  - entity_id: person.amy_d
+    zone: zone.shss
+    event: leave
+    trigger: zone
+  conditions: []
+  actions:
+  - data:
+      message: Amy Left Seven Hills SS
+    action: notify.telegram_brenton
+  mode: single
+- id: '1758023460908'
+  alias: Turn On Front Yard Lights When Person Detected After Dark
+  description: This automation activates the front yard lights for 20 minutes whenever
+    a person is detected in the front yard after sunset and before sunrise.
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.frontyard_person_occupancy
+    to: 'on'
+    from: 'off'
+  conditions:
+  - condition: sun
+    before: sunrise
+    after: sunset
+    after_offset: 00:20
+  actions:
+  - action: timer.start
+    metadata: {}
+    data: {}
+    target:
+      entity_id: timer.outside_light_person_detection_cooldown
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.outside_lights
+  mode: single
+- id: '1758106701428'
+  alias: Turn Off Outside Lights After Person Detection 20min Expired
+  description: This automation turns off the outside lights after the person detection
+    cooldown timer finishes.
+  triggers:
+  - event_type: timer.finished
+    event_data:
+      entity_id: timer.outside_light_person_detection_cooldown
+    trigger: event
+  conditions: []
+  actions:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.outside_lights
+  mode: single
+- id: '1758109762045'
+  alias: Turn On Outside Lights When Garage Door Opens At Night
+  description: This automation activates the outside lights when the garage door opens
+    during nighttime hours, ensuring safety and visibility. It also starts a cooldown
+    timer to prevent repeated activations within a short period.
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.garage_door_sensor_contact
+    from: 'off'
+    to: 'on'
+  conditions:
+  - condition: sun
+    before: sunrise
+    after: sunset
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.outside_lights
+  - action: timer.start
+    metadata: {}
+    data: {}
+    target:
+      entity_id: timer.outside_light_person_detection_cooldown
+  mode: single
+- id: '1758190249917'
+  alias: S25 Activate VPN When Leaving Home
+  description: Send a notification to activate VPN connection when you leave home
+    for 15 seconds.
+  triggers:
+  - trigger: state
+    entity_id:
+    - device_tracker.bps25ultra
+    from: home
+    to: not_home
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 15
+  conditions: []
+  actions:
+  - action: notify.mobile_app_bps25ultra
+    metadata: {}
+    data:
+      message: command_launch_app
+      data:
+        package_name: com.tailscale.ipn
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - action: notify.mobile_app_bps25ultra
+    metadata: {}
+    data:
+      message: command_broadcast_intent
+      data:
+        intent_package_name: com.tailscale.ipn
+        intent_action: com.tailscale.ipn.CONNECT_VPN
+  mode: single
+- id: '1758190522938'
+  alias: S25 Disconnect VPN When Arriving Home
+  description: Send a command to disconnect the VPN when the specified device enters
+    the home zone.
+  triggers:
+  - device_id: 180eca6a933d6b525f086faa78700270
+    domain: device_tracker
+    entity_id: c4d973c477da533952cc9d19e4f06a19
+    type: enters
+    trigger: device
+    zone: zone.home
+  conditions: []
+  actions:
+  - action: notify.mobile_app_bps25ultra
+    metadata: {}
+    data:
+      message: command_broadcast_intent
+      data:
+        intent_package_name: com.tailscale.ipn
+        intent_action: com.tailscale.ipn.DISCONNECT_VPN
+  mode: single
+- id: '1762342516898'
+  alias: Garage Switch Online Alert
+  description: Sends a notification when the garage door switch comes online.
+  triggers:
+  - trigger: state
+    entity_id:
+    - switch.garage_garage
+    from: unavailable
+    to:
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 4
+  conditions: []
+  actions:
+  - action: notify.telegram_brenton
+    metadata: {}
+    data:
+      message: garage door switch online
+  mode: single
+- id: '1762384081034'
+  alias: Garage Switch Offline Alert
+  description: Sends a notification when the garage door switch goes offline.
+  triggers:
+  - trigger: state
+    entity_id:
+    - switch.garage_garage
+    from:
+    to: unavailable
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 4
+  conditions: []
+  actions:
+  - action: notify.telegram_brenton
+    metadata: {}
+    data:
+      message: garage door switch offline
+  mode: single
+- id: '1763165963926'
+  alias: send notification when Amy D leaves Garden City
+  description: ''
+  triggers:
+  - entity_id: person.amy_d
+    zone: zone.garden_city
+    event: leave
+    trigger: zone
+  conditions: []
+  actions:
+  - data:
+      message: Amy Left Garden City
     action: notify.telegram_brenton
   mode: single
