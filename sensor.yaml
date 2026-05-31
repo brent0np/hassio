@@ -1,45 +1,71 @@
 
 # Template sensors for wind direction and heat index in various rooms
-- platform: template
-  sensors:
-    # Wind direction sensor
-    wind_direction:
-      friendly_name: "Wind Direction"
-      # Converts wind direction in degrees to compass points
-      value_template: >-
-        {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'] %}
-        {% set degree = states('sensor.gw1100c_v2_1_4_wind_direction')|float %}
-        {{ direction[((degree+11.25)/22.5)|int] }}
+#- platform: template
+#  sensors:
+#    # Wind direction sensor
+#    wind_direction:
+#      friendly_name: "Wind Direction"
+#      # Converts wind direction in degrees to compass points
+#      value_template: >-
+#        {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'] %}
+#        {% set degree = states('sensor.gw1100c_v2_1_4_wind_direction')|float %}
+#        {{ direction[((degree+11.25)/22.5)|int] }}
+#
+#    # Heat index sensor for master bedroom
+#    master_bedroom_heat_index:
+#      friendly_name: "Master Bedroom Heat Index"
+#      unit_of_measurement: "°C"
+#      # Calculates heat index using temperature and humidity
+#      value_template: >
+#        {% set T = states('sensor.master_bedroom_temperature') | float %}
+#        {% set H = states('sensor.master_bedroom_humidity') | float %}
+#        {% set HI = -8.78469475556 + 1.61139411 * T + 2.33854883889 * H + -0.14611605 * T * H + -0.012308094 * T**2 + -0.0164248277778 * H**2 + 0.002211732 * T**2 * H + 0.00072546 * T * H**2 + -0.000003582 * T**2 * H**2 %}
+#        {{ HI | round(2) }}
+#
+#    # Heat index sensor for kids bedroom
+#    kids_bedroom_heat_index:
+#      friendly_name: "Kids Bedroom Heat Index"
+#      unit_of_measurement: "°C"
+#      # Calculates heat index using temperature and humidity
+#      value_template: >
+#        {% set T = states('sensor.kids_bedroom_temperature') | float %}
+#        {% set H = states('sensor.kids_bedroom_humidity') | float %}
+#        {% set HI = -8.78469475556 + 1.61139411 * T + 2.33854883889 * H + -0.14611605 * T * H + -0.012308094 * T**2 + -0.0164248277778 * H**2 + 0.002211732 * T**2 * H + 0.00072546 * T * H**2 + -0.000003582 * T**2 * H**2 %}
+#        {{ HI | round(2) }}
+#
+#    # Heat index sensor for office
+#    office_heat_index:
+#      friendly_name: "Office Heat Index"
+#      unit_of_measurement: "°C"
+#      # Calculates heat index using temperature and humidity
+#      value_template: >
+#        {% set T = states('sensor.office_temperature') | float %}
+#        {% set H = states('sensor.office_humidity') | float %}
+#        {% set HI = -8.78469475556 + 1.61139411 * T + 2.33854883889 * H + -0.14611605 * T * H + -0.012308094 * T**2 + -0.0164248277778 * H**2 + 0.002211732 * T**2 * H + 0.00072546 * T * H**2 + -0.000003582 * T**2 * H**2 %}
+#        {{ HI | round(2) }}
 
-    # Heat index sensor for master bedroom
-    master_bedroom_heat_index:
-      friendly_name: "Master Bedroom Heat Index"
-      unit_of_measurement: "°C"
-      # Calculates heat index using temperature and humidity
-      value_template: >
-        {% set T = states('sensor.master_bedroom_temperature') | float %}
-        {% set H = states('sensor.master_bedroom_humidity') | float %}
-        {% set HI = -8.78469475556 + 1.61139411 * T + 2.33854883889 * H + -0.14611605 * T * H + -0.012308094 * T**2 + -0.0164248277778 * H**2 + 0.002211732 * T**2 * H + 0.00072546 * T * H**2 + -0.000003582 * T**2 * H**2 %}
-        {{ HI | round(2) }}
-
-    # Heat index sensor for kids bedroom
-    kids_bedroom_heat_index:
-      friendly_name: "Kids Bedroom Heat Index"
-      unit_of_measurement: "°C"
-      # Calculates heat index using temperature and humidity
-      value_template: >
-        {% set T = states('sensor.kids_bedroom_temperature') | float %}
-        {% set H = states('sensor.kids_bedroom_humidity') | float %}
-        {% set HI = -8.78469475556 + 1.61139411 * T + 2.33854883889 * H + -0.14611605 * T * H + -0.012308094 * T**2 + -0.0164248277778 * H**2 + 0.002211732 * T**2 * H + 0.00072546 * T * H**2 + -0.000003582 * T**2 * H**2 %}
-        {{ HI | round(2) }}
-
-    # Heat index sensor for office
-    office_heat_index:
-      friendly_name: "Office Heat Index"
-      unit_of_measurement: "°C"
-      # Calculates heat index using temperature and humidity
-      value_template: >
-        {% set T = states('sensor.office_temperature') | float %}
-        {% set H = states('sensor.office_humidity') | float %}
-        {% set HI = -8.78469475556 + 1.61139411 * T + 2.33854883889 * H + -0.14611605 * T * H + -0.012308094 * T**2 + -0.0164248277778 * H**2 + 0.002211732 * T**2 * H + 0.00072546 * T * H**2 + -0.000003582 * T**2 * H**2 %}
-        {{ HI | round(2) }}
+- platform: gtfs_rt
+  trip_update_url: 'https://gtfsrt.api.translink.com.au/api/realtime/SEQ/TripUpdates'
+  vehicle_position_url: 'https://gtfsrt.api.translink.com.au/api/realtime/SEQ/VehiclePositions'
+  route_delimiter: '-'
+  departures:
+  - name: 180 Bus Inbound
+    route: 180
+    stopid: 2352
+    icon: mdi:bus
+    service_type: Bus
+  - name: 175 Bus Inbound
+    route: 175
+    stopid: 2352
+    icon: mdi:bus
+    service_type: Bus
+  - name: 180 Bus Outbound
+    route: 180
+    stopid: 1009
+    icon: mdi:bus
+    service_type: Bus
+  - name: 180 Bus From Mater Outbound
+    route: 180
+    stopid: 19063
+    icon: mdi:bus
+    service_type: Bus

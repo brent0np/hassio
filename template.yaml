@@ -1,0 +1,34 @@
+- sensor:
+    - name: "Wind Direction"
+      unique_id: wind_direction
+      state: >-
+        {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'] %}
+        {% set degree = states('sensor.gw1100c_v2_1_4_wind_direction') | float %}
+        {{ direction[((degree+11.25)/22.5)|int] }}
+
+    - name: "Master Bedroom Heat Index"
+      unique_id: master_bedroom_heat_index
+      unit_of_measurement: "°C"
+      state: >
+        {% set T = states('sensor.master_bedroom_temperature') | float %}
+        {% set H = states('sensor.master_bedroom_humidity') | float %}
+        {% set HI = -8.78469475556 + 1.61139411 * T + 2.33854883889 * H + -0.14611605 * T * H + -0.012308094 * T**2 + -0.0164248277778 * H**2 + 0.002211732 * T**2 * H + 0.00072546 * T * H**2 + -0.000003582 * T**2 * H**2 %}
+        {{ HI | round(2) }}
+
+    - name: "Kids Bedroom Heat Index"
+      unique_id: kids_bedroom_heat_index
+      unit_of_measurement: "°C"
+      state: >
+        {% set T = states('sensor.kids_bedroom_temperature') | float %}
+        {% set H = states('sensor.kids_bedroom_humidity') | float %}
+        {% set HI = -8.78469475556 + 1.61139411 * T + 2.33854883889 * H + -0.14611605 * T * H + -0.012308094 * T**2 + -0.0164248277778 * H**2 + 0.002211732 * T**2 * H + 0.00072546 * T * H**2 + -0.000003582 * T**2 * H**2 %}
+        {{ HI | round(2) }}
+
+    - name: "Office Heat Index"
+      unique_id: office_heat_index
+      unit_of_measurement: "°C"
+      state: >
+        {% set T = states('sensor.office_temperature') | float %}
+        {% set H = states('sensor.office_humidity') | float %}
+        {% set HI = -8.78469475556 + 1.61139411 * T + 2.33854883889 * H + -0.14611605 * T * H + -0.012308094 * T**2 + -0.0164248277778 * H**2 + 0.002211732 * T**2 * H + 0.00072546 * T * H**2 + -0.000003582 * T**2 * H**2 %}
+        {{ HI | round(2) }}

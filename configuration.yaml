@@ -35,14 +35,6 @@ timer:
 tts:
   - platform: google_translate  # Uses Google Translate for TTS
 
-# Telegram notifications (uncomment to enable)
-#telegram_bot:
-#  - platform: polling
-#    api_key: !secret telegram_token
-#    allowed_chat_ids:
-#      - !secret brenton_chatid
-#      - !secret amy_chatid
-
 # Notify configuration for Telegram
 notify:
   - name: telegram_brenton
@@ -59,45 +51,20 @@ webhook:
 homeassistant:
   customize:
     # Set rain rate sensors to total_increasing state class
-    sensor.gw1100b_hourly_rain_rate:
+    sensor.gw1100c_v2_1_4_hourly_rain_rate:
       state_class: total_increasing
-    sensor.gw1100b_daily_rain_rate:
+    sensor.gw1100c_v2_1_4_daily_rain_rate:
       state_class: total_increasing
-    sensor.gw1100b_weekly_rain_rate:
+    sensor.gw1100c_v2_1_4_weekly_rain_rate:
       state_class: total_increasing
-    sensor.gw1100b_monthly_rain_rate:
+    sensor.gw1100c_v2_1_4_monthly_rain_rate:
       state_class: total_increasing
-    sensor.gw1100b_yearly_rain_rate:
+    sensor.gw1100c_v2_1_4_yearly_rain_rate:
       state_class: total_increasing
-    sensor.gw1100b_event_rain_rate:
+    sensor.gw1100c_v2_1_4_event_rain_rate:
       state_class: total_increasing
 
 # Sonos Cloud integration
-sonos_cloud:
-  client_id: !secret sonos_id
-  client_secret: !secret sonos_secret
-
-# Include additional configuration files for modular setup
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
-sensor: !include sensor.yaml
-  customize:
-    sensor.gw1100b_hourly_rain_rate:
-      state_class: total_increasing
-    sensor.gw1100b_daily_rain_rate:
-      state_class: total_increasing
-    sensor.gw1100b_weekly_rain_rate:
-      state_class: total_increasing
-    sensor.gw1100b_monthly_rain_rate:
-      state_class: total_increasing
-    sensor.gw1100b_yearly_rain_rate:
-      state_class: total_increasing
-    sensor.gw1100b_event_rain_rate:
-      state_class: total_increasing
-  
-#Sonos Cloud
 sonos_cloud:
   client_id: !secret sonos_id
   client_secret: !secret sonos_secret
@@ -108,3 +75,4 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 sensor: !include sensor.yaml
+template: !include template.yaml

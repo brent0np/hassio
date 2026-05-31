@@ -62,16 +62,19 @@
 - id: '1588724019082'
   alias: send notification when Amy D leaves Dar's House
   description: ''
-  trigger:
+  triggers:
   - entity_id: person.amy_d
     event: leave
     platform: zone
     zone: zone.dar_s_house
-  condition: []
-  action:
-  - data:
+  conditions: []
+  actions:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
       message: Amy Left Dar's House
-    service: notify.telegram_brenton
 - id: '1591154308336'
   alias: 20 Min Garage Open Alert
   description: Send notifications if the garage door has been open for more than 20
@@ -85,15 +88,21 @@
       minutes: 20
       seconds: 0
     type: opened
-    trigger: device
+    platform: device
   conditions: []
   actions:
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
       message: Garage Door may have been open for 20+ minutes
-    action: notify.telegram_brenton
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_2024062428
+    data:
       message: Garage Door may have been open for 20+ minutes
-    action: notify.telegram_amy
   mode: single
 - id: '1600726741112'
   alias: Garage Door Open Alert When Nobody is Home
@@ -108,65 +117,80 @@
       hours: 0
       minutes: 1
       seconds: 0
-    trigger: device
+    platform: device
   conditions:
   - condition: device
-    device_id: 10b0e5b86985c0641a5ac6c5ef5bb4ed
+    device_id: d6453ec1b8a8e2837c3227e65dd12f71
     domain: device_tracker
-    entity_id: bf45a47ce9e1bc611141afab1b35bc35
+    entity_id: device_tracker.sm_s938b
     type: is_not_home
   - condition: device
-    device_id: 180eca6a933d6b525f086faa78700270
+    device_id: 21b91ba2e462c7476427cb22c110c543
     domain: device_tracker
-    entity_id: c4d973c477da533952cc9d19e4f06a19
+    entity_id: device_tracker.bp_s26ultra
     type: is_not_home
   actions:
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
       message: Garage Door Open & Nobody is Home!
-    action: notify.telegram_brenton
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_2024062428
+    data:
       message: Garage Door Open & Nobody is Home!
-    action: notify.telegram_amy
   mode: single
 - id: '1601423365123'
   alias: send notification when Amy D leaves swimming
   description: ''
-  trigger:
+  triggers:
   - platform: zone
     entity_id: person.amy_d
     zone: zone.swimming
     event: leave
-  condition: []
-  action:
-  - service: notify.telegram_brenton
+  conditions: []
+  actions:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: Amy Left Swimming Lessons
   mode: single
 - id: '1603426641009'
   alias: send notification when amy leaves Amys Mothers House
   description: ''
-  trigger:
+  triggers:
   - platform: zone
     entity_id: person.amy_d
     zone: zone.amy_s_mothers_house
     event: leave
-  condition: []
-  action:
-  - service: notify.telegram_brenton
+  conditions: []
+  actions:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: Amy Left her Mothers House
   mode: single
 - id: '1604986455639'
   alias: send notification when Amy D leaves Sarah's House
   description: ''
-  trigger:
+  triggers:
   - platform: zone
     entity_id: person.amy_d
     zone: zone.sarah_s_house
     event: leave
-  condition: []
-  action:
-  - service: notify.telegram_brenton
+  conditions: []
+  actions:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: Amy Left Sarah's House
   mode: single
@@ -177,17 +201,20 @@
   - entity_id: sensor.steam_76561197965532072
     attribute: game
     to: 'PUBG: BATTLEGROUNDS'
-    trigger: state
+    platform: state
   conditions:
   - condition: device
-    device_id: 180eca6a933d6b525f086faa78700270
+    device_id: 21b91ba2e462c7476427cb22c110c543
     domain: device_tracker
-    entity_id: c4d973c477da533952cc9d19e4f06a19
+    entity_id: device_tracker.bp_s26ultra
     type: is_home
   actions:
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
       message: Paul Black playing PUBG
-    action: notify.telegram_brenton
   mode: single
 - id: '1609551055556'
   alias: Garage light on when garage door opens
@@ -231,32 +258,35 @@
   - entity_id: sensor.steam_76561198020324018
     attribute: game
     to: 'PUBG: BATTLEGROUNDS'
-    trigger: state
+    platform: state
   conditions:
   - condition: device
-    device_id: 180eca6a933d6b525f086faa78700270
+    device_id: 21b91ba2e462c7476427cb22c110c543
     domain: device_tracker
-    entity_id: c4d973c477da533952cc9d19e4f06a19
+    entity_id: device_tracker.bp_s26ultra
     type: is_home
   actions:
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
       message: Paul Oberman playing PUBG
-    action: notify.telegram_brenton
   mode: single
 - id: '1610622100020'
   alias: Use Sonos as Doorbell Chime if after 7am but before 7pm
   description: ''
-  trigger:
+  triggers:
   - platform: state
     entity_id:
     - binary_sensor.doorbell_ringing_2
     from: 'off'
     to: 'on'
-  condition:
+  conditions:
   - condition: time
     after: 07:00:00
     before: '19:00:00'
-  action:
+  actions:
   - data:
       volume_level: 0.35
     target:
@@ -279,9 +309,12 @@
     target:
       entity_id: media_player.living_room_2
     action: media_player.play_media
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
       message: Doorbell Pressed
-    action: notify.telegram_brenton
   - target:
       entity_id: media_player.nesthub19fd
     data:
@@ -301,21 +334,27 @@
 - id: '1611535302798'
   alias: Doorbell Below 20 percent battery
   description: ''
-  trigger:
+  triggers:
   - type: battery_level
     platform: device
     device_id: fcb8efc5d5320c1132372ca83aec0545
     entity_id: fd507a2c3ca207f2fb8d016ccf33d32e
     domain: sensor
     below: 20
-  condition: []
-  action:
-  - data:
+  conditions: []
+  actions:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
       message: Doorbell battery low
-    action: notify.telegram_brenton
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_2024062428
+    data:
       message: Doorbell battery low
-    action: notify.telegram_amy
   mode: single
 - id: '1615545032487'
   alias: Aqara Magic Cube (Z2M)
@@ -346,15 +385,21 @@
 - id: '1620685138069'
   alias: Home Assistant Restart Alert
   description: ''
-  trigger:
+  triggers:
   - platform: homeassistant
     event: start
-  condition: []
-  action:
-  - service: notify.telegram_brenton
+  conditions: []
+  actions:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: Home Assistant Has Restarted
-  - service: notify.telegram_amy
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_2024062428
     data:
       message: Home Assistant Has Restarted
   mode: single
@@ -367,7 +412,10 @@
       day: 6
       threshold: 30
       actions:
-      - service: notify.telegram_brenton
+      - action: notify.send_message
+        metadata: {}
+        target:
+          entity_id: notify.telegram_bot_609952141_782734799
         data:
           message: The battery of the sensor(s) {{sensors}} is low.
       exclude:
@@ -424,14 +472,17 @@
 - id: '1645142265061'
   alias: 'send notification when Amy leaves ballet '
   description: ''
-  trigger:
+  triggers:
   - platform: zone
     entity_id: person.amy_d
     zone: zone.ballet
     event: leave
-  condition: []
-  action:
-  - service: notify.telegram_brenton
+  conditions: []
+  actions:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: Amy Left Ballet
   mode: single
@@ -440,10 +491,12 @@
   description: ''
   triggers:
   - entity_id:
-    - sensor.bps25ultra_charger_type
-    from: wireless
-    to: none
-    trigger: state
+    - sensor.bp_s26ultra_charger_type
+    from:
+    - wireless
+    to:
+    - none
+    platform: state
   - type: turned_off
     device_id: 08d43b4e7735c67cb5915be2265976bd
     entity_id: a280bf19eb3199bc5f71c258095ed3c5
@@ -452,7 +505,7 @@
       hours: 5
       minutes: 0
       seconds: 0
-    trigger: device
+    platform: device
   conditions:
   - condition: time
     before: 09:00:00
@@ -468,20 +521,22 @@
   - condition: and
     conditions:
     - condition: device
-      device_id: 180eca6a933d6b525f086faa78700270
+      device_id: 21b91ba2e462c7476427cb22c110c543
       domain: device_tracker
-      entity_id: c4d973c477da533952cc9d19e4f06a19
+      entity_id: c321763d94c8eb2d2dc38bff56b696b8
       type: is_home
   actions:
   - data: {}
     target:
       entity_id: switch.downstairs_bathroom
     action: switch.turn_on
-  - action: notify.telegram_brenton
+  - action: notify.send_message
     metadata: {}
+    alias: Send Weather Forecast
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: '{{ states(''sensor.holland_park_extended_text_0'') }}'
-    alias: Send Weather Forecast
   mode: single
 - id: '1673692518809'
   alias: Old Desk Power Toggle with Button
@@ -503,14 +558,17 @@
 - id: '1674194478166'
   alias: Send a notification when Amy leaves SHSS
   description: ''
-  trigger:
+  triggers:
   - platform: zone
     entity_id: device_tracker.amys_iphone
     zone: zone.shss
     event: leave
-  condition: []
-  action:
-  - service: notify.telegram_brenton
+  conditions: []
+  actions:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: Amy Left SHSS
   mode: single
@@ -600,14 +658,17 @@
 - id: '1697101047187'
   alias: Send a notification when Amy leaves Bunnings Logan Road
   description: ''
-  trigger:
+  triggers:
   - platform: zone
     entity_id: person.amy_d
     zone: zone.bunnings_logan_road
     event: leave
-  condition: []
-  action:
-  - service: notify.telegram_brenton
+  conditions: []
+  actions:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: Amy Left Bunnings Logan Road
   mode: single
@@ -616,13 +677,13 @@
   description: ''
   triggers:
   - at: '23:57:00'
-    trigger: time
+    platform: time
   conditions:
   - condition: state
-    entity_id: device_tracker.bps25ultra
+    entity_id: device_tracker.bp_s26ultra
     state: not_home
   - condition: state
-    entity_id: device_tracker.amy_s23
+    entity_id: device_tracker.sm_s938b
     state: not_home
   actions:
   - data: {}
@@ -637,7 +698,7 @@
     path: SgtBatten/Stable.yaml
     input:
       camera: camera.frontyard
-      notify_device: 180eca6a933d6b525f086faa78700270
+      notify_device: 21b91ba2e462c7476427cb22c110c543
       message: A person was detected inside the front gate
       attachment: thumbnail
       alert_once: false
@@ -684,15 +745,17 @@
   description: ''
   triggers:
   - entity_id:
-    - sensor.bps25ultra_charger_type
-    from: none
-    to: wireless
+    - sensor.bp_s26ultra_charger_type
+    from:
+    - none
+    to:
+    - wireless
     trigger: state
   conditions:
   - condition: device
-    device_id: 180eca6a933d6b525f086faa78700270
+    device_id: 21b91ba2e462c7476427cb22c110c543
     domain: device_tracker
-    entity_id: c4d973c477da533952cc9d19e4f06a19
+    entity_id: c321763d94c8eb2d2dc38bff56b696b8
     type: is_home
   - condition: time
     after: '20:00:00'
@@ -706,7 +769,7 @@
     - sun
     - tue
   actions:
-  - action: notify.mobile_app_bps25ultra
+  - action: notify.mobile_app_bp_s26ultra
     data:
       data:
         command: priority_only
@@ -717,31 +780,34 @@
   description: ''
   triggers:
   - entity_id:
-    - sensor.bps25ultra_charger_type
+    - sensor.bp_s26ultra_charger_type
     from: wireless
     to: none
-    trigger: state
+    platform: state
   conditions:
   - condition: state
     entity_id: person.brenton_p
     state: home
   - condition: time
-    after: '20:00:00'
-    before: 08:00:00
+    after: 05:00:00
+    before: '11:00:00'
     weekday:
-    - sat
-    - fri
-    - thu
-    - wed
     - mon
-    - sun
     - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+  - condition: state
+    entity_id: sensor.bp_s26ultra_do_not_disturb_sensor
+    state: 'on'
   actions:
   - data:
       message: command_dnd
       data:
         command: 'off'
-    action: notify.mobile_app_bps25ultra
+    action: notify.mobile_app_bp_s26ultra
   mode: single
 - id: '1712057319734'
   alias: on_frontyard person notification frigate (Amy)
@@ -750,7 +816,7 @@
     path: SgtBatten/Stable.yaml
     input:
       camera: camera.frontyard
-      notify_device: 10b0e5b86985c0641a5ac6c5ef5bb4ed
+      notify_device: d6453ec1b8a8e2837c3227e65dd12f71
       message: A person was detected inside the front gate
       attachment: thumbnail
       alert_once: false
@@ -763,7 +829,7 @@
       labels:
       - person
       silence_timer: 15
-      base_url: !secret nabucasa_url
+      base_url: https://5rc5out7od98uk1629p0sq36t2n3xg8r.ui.nabu.casa/
       critical: 'false'
       ios_live_view: true
 - id: '1725018973949'
@@ -814,38 +880,43 @@
 - id: '1725679307620'
   alias: Turn on gate after being 500m away from home
   description: ''
-  trigger:
+  triggers:
   - platform: numeric_state
     entity_id:
     - sensor.home_brenton_p_distance
     above: 500
-  condition:
+  conditions:
   - condition: state
     entity_id: binary_sensor.s23ultra_android_auto
     state: 'on'
-  action:
+  actions:
   - action: automation.turn_on
     metadata: {}
     data: {}
     target:
       entity_id: automation.brenton_auto_gate
-  - action: notify.telegram_brenton
+  - action: notify.send_message
     metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: Gate automation turned on
   mode: single
 - id: '1725846451602'
-  alias: Smoker over 285
-  description: ''
+  alias: Smoker over 250
+  description: Alerts when the smoker's temperature rises above 250, sending a notification
+    and a spoken alert.
   triggers:
   - entity_id:
     - sensor.probe_1
-    above: 275
-    trigger: numeric_state
+    above: 250
+    platform: numeric_state
   conditions: []
   actions:
-  - action: notify.telegram_brenton
+  - action: notify.send_message
     metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: Smoker outside range (high)
   - action: tts.speak
@@ -856,6 +927,13 @@
       media_player_entity_id: media_player.nesthub19fd
     target:
       entity_id: tts.home_assistant_cloud
+    enabled: false
+  - action: light.turn_on
+    metadata: {}
+    target:
+      device_id: 270ba07ee9c531c776784183e5c91018
+    data: {}
+    enabled: false
   mode: single
 - id: '1725849141471'
   alias: Smoker under 220
@@ -863,12 +941,14 @@
   triggers:
   - entity_id:
     - sensor.probe_1
-    below: 210
-    trigger: numeric_state
+    below: 200
+    platform: numeric_state
   conditions: []
   actions:
-  - action: notify.telegram_brenton
+  - action: notify.send_message
     metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: Smoker outside range (low)
   - action: tts.speak
@@ -879,16 +959,23 @@
       message: Smoker under temperature
     target:
       entity_id: tts.home_assistant_cloud
+    enabled: true
+  - action: light.turn_on
+    metadata: {}
+    target:
+      device_id: 270ba07ee9c531c776784183e5c91018
+    data: {}
+    enabled: false
   mode: single
 - id: '1728303492577'
   alias: Amy Weather Forecast When Unplugged
   description: ''
   triggers:
   - entity_id:
-    - sensor.amy_s23_battery_state
+    - sensor.sm_s938b_battery_state
     from: Charging
     to: Not Charging
-    trigger: state
+    platform: state
   conditions:
   - condition: time
     before: 09:00:00
@@ -909,11 +996,13 @@
       entity_id: bf45a47ce9e1bc611141afab1b35bc35
       type: is_home
   actions:
-  - action: notify.telegram_amy
+  - action: notify.send_message
     metadata: {}
+    alias: Send Weather Forecast
+    target:
+      entity_id: notify.telegram_bot_609952141_2024062428
     data:
       message: '{{ states(''sensor.holland_park_extended_text_0'') }}'
-    alias: Send Weather Forecast
   mode: single
 - id: '1730028164949'
   alias: Paul Black playing Splitgate
@@ -923,17 +1012,20 @@
     - sensor.steam_76561197965532072
     attribute: game
     to: Splitgate
-    trigger: state
+    platform: state
   conditions:
   - condition: device
-    device_id: 180eca6a933d6b525f086faa78700270
+    device_id: 21b91ba2e462c7476427cb22c110c543
     domain: device_tracker
-    entity_id: c4d973c477da533952cc9d19e4f06a19
+    entity_id: device_tracker.bp_s26ultra
     type: is_home
   actions:
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
       message: Paul Black playing Splitgate
-    action: notify.telegram_brenton
   mode: single
 - id: '1730028200827'
   alias: Paul Oberman playing Splitgate
@@ -943,36 +1035,38 @@
     - sensor.steam_76561198020324018
     attribute: game
     to: Splitgate
-    trigger: state
+    platform: state
   conditions:
   - condition: device
-    device_id: 180eca6a933d6b525f086faa78700270
+    device_id: 21b91ba2e462c7476427cb22c110c543
     domain: device_tracker
-    entity_id: c4d973c477da533952cc9d19e4f06a19
+    entity_id: device_tracker.bp_s26ultra
     type: is_home
   actions:
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
       message: Paul Oberman playing Splitgate
-    action: notify.telegram_brenton
   mode: single
 - id: '1732422086063'
-  alias: Start Robot Vacuum After 48 Hours
-  description: This automation starts the robot vacuum if it hasn't run in the past
-    48 hours and certain conditions are met, including that no one is home and it's
-    daytime.
+  alias: Start Robot Vacuum After 72 Hours
+  description: Sends Brenton a Telegram confirmation request before starting the robot
+    vacuum, if it hasn't run in the past 72 hours and no one is home during daytime.
   triggers:
-  - device_id: 10b0e5b86985c0641a5ac6c5ef5bb4ed
+  - device_id: d6453ec1b8a8e2837c3227e65dd12f71
     domain: device_tracker
-    entity_id: bf45a47ce9e1bc611141afab1b35bc35
+    entity_id: device_tracker.sm_s938b
     type: leaves
-    trigger: device
     zone: zone.home
-  - device_id: 180eca6a933d6b525f086faa78700270
+    platform: device
+  - device_id: 21b91ba2e462c7476427cb22c110c543
     domain: device_tracker
-    entity_id: c4d973c477da533952cc9d19e4f06a19
+    entity_id: device_tracker.bp_s26ultra
     type: leaves
-    trigger: device
     zone: zone.home
+    platform: device
   conditions:
   - condition: template
     value_template: '{{ (as_timestamp(now()) - as_timestamp(states(''sensor.mi_robot_vacuum_last_clean_start'')))
@@ -1000,15 +1094,66 @@
     entity_id: binary_sensor.office_garage_door_contact
     state: 'off'
   actions:
-  - action: vacuum.start
+  - action: notify.send_message
     metadata: {}
-    data: {}
     target:
-      device_id: 83f99716dde04d4cf0c74f8574366014
-  - action: notify.telegram_brenton
-    metadata: {}
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
-      message: Office Vacuum Started due to deadline
+      message: "\U0001F916 The office vacuum hasn't run in over 72 hours. Should I
+        start it now?"
+      data:
+        inline_keyboard:
+        - - - Yes, start it
+            - /vacuum_yes
+          - - No, skip it
+            - /vacuum_no
+  - wait_for_trigger:
+    - platform: event
+      event_type: telegram_callback
+      event_data:
+        data: /vacuum_yes
+    - platform: event
+      event_type: telegram_callback
+      event_data:
+        data: /vacuum_no
+    timeout:
+      hours: 1
+    continue_on_timeout: true
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger is not none and wait.trigger.event.data.data
+          == ''/vacuum_yes'' }}'
+      sequence:
+      - action: vacuum.start
+        metadata: {}
+        data: {}
+        target:
+          device_id: 83f99716dde04d4cf0c74f8574366014
+      - action: notify.send_message
+        metadata: {}
+        target:
+          entity_id: notify.telegram_bot_609952141_782734799
+        data:
+          message: ✅ Vacuum started!
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger is not none and wait.trigger.event.data.data
+          == ''/vacuum_no'' }}'
+      sequence:
+      - action: notify.send_message
+        metadata: {}
+        target:
+          entity_id: notify.telegram_bot_609952141_782734799
+        data:
+          message: ❌ Got it, vacuum skipped.
+    default:
+    - action: notify.send_message
+      metadata: {}
+      target:
+        entity_id: notify.telegram_bot_609952141_782734799
+      data:
+        message: ⏱️ No response received — vacuum skipped this time.
   mode: single
 - id: '1737810572740'
   alias: Pulled Pork Complete
@@ -1221,25 +1366,25 @@
   alias: Turn parents fan off if not home after 5 mins
   description: ''
   triggers:
-  - trigger: state
-    entity_id:
+  - entity_id:
     - person.brenton_p
     - person.amy_d
     from: home
     to:
+    platform: state
   conditions:
   - condition: state
     entity_id: fan.parents_bedroom_fan
     state: 'on'
   - condition: device
-    device_id: 10b0e5b86985c0641a5ac6c5ef5bb4ed
+    device_id: d6453ec1b8a8e2837c3227e65dd12f71
     domain: device_tracker
-    entity_id: bf45a47ce9e1bc611141afab1b35bc35
+    entity_id: device_tracker.sm_s938b
     type: is_not_home
   - condition: device
-    device_id: 180eca6a933d6b525f086faa78700270
+    device_id: 21b91ba2e462c7476427cb22c110c543
     domain: device_tracker
-    entity_id: c4d973c477da533952cc9d19e4f06a19
+    entity_id: device_tracker.bp_s26ultra
     type: is_not_home
   actions:
   - action: fan.turn_off
@@ -1252,25 +1397,25 @@
   alias: Kids Bedroom Fan off if nobody home
   description: ''
   triggers:
-  - trigger: state
-    entity_id:
+  - entity_id:
     - person.brenton_p
     - person.amy_d
     from: home
     to:
+    platform: state
   conditions:
   - condition: state
     entity_id: fan.kids_bedroom_fan
     state: 'on'
   - condition: device
-    device_id: 10b0e5b86985c0641a5ac6c5ef5bb4ed
+    device_id: d6453ec1b8a8e2837c3227e65dd12f71
     domain: device_tracker
-    entity_id: bf45a47ce9e1bc611141afab1b35bc35
+    entity_id: device_tracker.sm_s938b
     type: is_not_home
   - condition: device
-    device_id: 180eca6a933d6b525f086faa78700270
+    device_id: 21b91ba2e462c7476427cb22c110c543
     domain: device_tracker
-    entity_id: c4d973c477da533952cc9d19e4f06a19
+    entity_id: device_tracker.bp_s26ultra
     type: is_not_home
   actions:
   - action: fan.turn_off
@@ -1286,12 +1431,15 @@
   - entity_id: person.amy_d
     zone: zone.tutoring
     event: leave
-    trigger: zone
+    platform: zone
   conditions: []
   actions:
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
       message: Amy Left Tutoring
-    action: notify.telegram_brenton
   mode: single
 - id: '1744973474801'
   alias: Garage Door Open Message
@@ -1301,15 +1449,19 @@
     device_id: 8e771c0b255d4b36bfcff005b44518a6
     entity_id: 740d5db23a03abad822f105842e1240a
     domain: binary_sensor
-    trigger: device
+    platform: device
   conditions: []
   actions:
-  - action: notify.telegram_amy
+  - action: notify.send_message
     metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_2024062428
     data:
       message: Garage Door Opened
-  - action: notify.telegram_brenton
+  - action: notify.send_message
     metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: Garage Door Opened
   mode: single
@@ -1321,15 +1473,19 @@
     device_id: 8e771c0b255d4b36bfcff005b44518a6
     entity_id: 740d5db23a03abad822f105842e1240a
     domain: binary_sensor
-    trigger: device
+    platform: device
   conditions: []
   actions:
-  - action: notify.telegram_amy
+  - action: notify.send_message
     metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_2024062428
     data:
       message: Garage Door Closed
-  - action: notify.telegram_brenton
+  - action: notify.send_message
     metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: Garage Door Closed
   mode: single
@@ -1477,12 +1633,15 @@
   - entity_id: person.amy_d
     zone: zone.shss
     event: leave
-    trigger: zone
+    platform: zone
   conditions: []
   actions:
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
       message: Amy Left Seven Hills SS
-    action: notify.telegram_brenton
   mode: single
 - id: '1758023460908'
   alias: Turn On Front Yard Lights When Person Detected After Dark
@@ -1556,22 +1715,22 @@
       entity_id: timer.outside_light_person_detection_cooldown
   mode: single
 - id: '1758190249917'
-  alias: S25 Activate VPN When Leaving Home
+  alias: S26 Activate VPN When Leaving Home
   description: Send a notification to activate VPN connection when you leave home
     for 15 seconds.
   triggers:
-  - trigger: state
-    entity_id:
-    - device_tracker.bps25ultra
+  - entity_id:
+    - device_tracker.bp_s26ultra
     from: home
     to: not_home
     for:
       hours: 0
       minutes: 0
       seconds: 15
+    platform: state
   conditions: []
   actions:
-  - action: notify.mobile_app_bps25ultra
+  - action: notify.mobile_app_bp_s26ultra
     metadata: {}
     data:
       message: command_launch_app
@@ -1582,7 +1741,7 @@
       minutes: 0
       seconds: 5
       milliseconds: 0
-  - action: notify.mobile_app_bps25ultra
+  - action: notify.mobile_app_bp_s26ultra
     metadata: {}
     data:
       message: command_broadcast_intent
@@ -1591,19 +1750,19 @@
         intent_action: com.tailscale.ipn.CONNECT_VPN
   mode: single
 - id: '1758190522938'
-  alias: S25 Disconnect VPN When Arriving Home
+  alias: S26 Disconnect VPN When Arriving Home
   description: Send a command to disconnect the VPN when the specified device enters
     the home zone.
   triggers:
-  - device_id: 180eca6a933d6b525f086faa78700270
+  - device_id: 21b91ba2e462c7476427cb22c110c543
     domain: device_tracker
-    entity_id: c4d973c477da533952cc9d19e4f06a19
+    entity_id: device_tracker.bp_s26ultra
     type: enters
-    trigger: device
     zone: zone.home
+    platform: device
   conditions: []
   actions:
-  - action: notify.mobile_app_bps25ultra
+  - action: notify.mobile_app_bp_s26ultra
     metadata: {}
     data:
       message: command_broadcast_intent
@@ -1615,8 +1774,7 @@
   alias: Garage Switch Online Alert
   description: Sends a notification when the garage door switch comes online.
   triggers:
-  - trigger: state
-    entity_id:
+  - entity_id:
     - switch.garage_garage
     from: unavailable
     to:
@@ -1624,10 +1782,13 @@
       hours: 0
       minutes: 0
       seconds: 4
+    platform: state
   conditions: []
   actions:
-  - action: notify.telegram_brenton
+  - action: notify.send_message
     metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: garage door switch online
   mode: single
@@ -1635,8 +1796,7 @@
   alias: Garage Switch Offline Alert
   description: Sends a notification when the garage door switch goes offline.
   triggers:
-  - trigger: state
-    entity_id:
+  - entity_id:
     - switch.garage_garage
     from:
     to: unavailable
@@ -1644,10 +1804,13 @@
       hours: 0
       minutes: 0
       seconds: 4
+    platform: state
   conditions: []
   actions:
-  - action: notify.telegram_brenton
+  - action: notify.send_message
     metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
     data:
       message: garage door switch offline
   mode: single
@@ -1658,10 +1821,161 @@
   - entity_id: person.amy_d
     zone: zone.garden_city
     event: leave
-    trigger: zone
+    platform: zone
   conditions: []
   actions:
-  - data:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
       message: Amy Left Garden City
-    action: notify.telegram_brenton
+  mode: single
+- id: '1769658196277'
+  alias: 'Brenton: Update Travel Time for Upcoming Events'
+  description: Every 5 mins, fetches upcoming events from both calendars, picks the
+    soonest one with a location within 4 hours, updates destination, event name, event
+    start time, and refreshes Waze travel time.
+  triggers:
+  - minutes: /5
+    platform: time_pattern
+  - entity_id: calendar.brjpfeiffer_gmail_com
+    event: start
+    offset: '-4:00:00'
+    platform: calendar
+  - entity_id: calendar.family
+    event: start
+    offset: '-4:00:00'
+    platform: calendar
+  actions:
+  - action: calendar.get_events
+    data:
+      end_date_time: '{{ (now() + timedelta(hours=4)).strftime(''%Y-%m-%dT%H:%M:%S%z'')
+        }}'
+      start_date_time: '{{ now().strftime(''%Y-%m-%dT%H:%M:%S%z'') }}'
+    response_variable: agenda
+    target:
+      entity_id:
+      - calendar.brjpfeiffer_gmail_com
+      - calendar.family
+  - variables:
+      all_events: '{{ (agenda[''calendar.brjpfeiffer_gmail_com''][''events''] + agenda[''calendar.family''][''events''])
+        | selectattr(''location'', ''defined'') | selectattr(''location'', ''ne'',
+        '''') | selectattr(''location'', ''ne'', none) | sort(attribute=''start'')
+        | list }}'
+  - choose:
+    - conditions: '{{ all_events | length > 0 }}'
+      sequence:
+      - action: input_text.set_value
+        data:
+          value: '{{ all_events[0].location }}'
+        target:
+          entity_id: input_text.destination_address
+      - action: input_text.set_value
+        data:
+          value: '{{ all_events[0].summary }}'
+        target:
+          entity_id: input_text.brenton_next_event_name
+      - action: input_datetime.set_datetime
+        data:
+          datetime: '{{ all_events[0].start }}'
+        target:
+          entity_id: input_datetime.brenton_next_event_start
+      - action: homeassistant.update_entity
+        target:
+          entity_id: sensor.calendar_travel
+    default:
+    - action: input_text.set_value
+      data:
+        value: ''
+      target:
+        entity_id: input_text.destination_address
+    - action: input_text.set_value
+      data:
+        value: ''
+      target:
+        entity_id: input_text.brenton_next_event_name
+  mode: single
+- id: '1769662252461'
+  alias: 'Brenton: Regular Travel Time Update'
+  description: Forces Waze to update every 5 mins when an appointment is near
+  triggers:
+  - minutes: /5
+    platform: time_pattern
+  conditions:
+  - condition: template
+    value_template: '{{ state_attr(''calendar.brjpfeiffer_gmail_com'', ''location'')
+      != '''' }}'
+  - condition: template
+    value_template: '{% set start = state_attr(''calendar.brjpfeiffer_gmail_com'',
+      ''start_time'') %}
+
+      {{ start is not none and (as_local(as_datetime(start)) - now()).total_seconds()
+      < 14400 }}
+
+      '
+  actions:
+  - action: input_text.set_value
+    target:
+      entity_id: input_text.destination_address
+    data:
+      value: '{{ state_attr(''calendar.brjpfeiffer_gmail_com'', ''location'') }}'
+  - action: homeassistant.update_entity
+    target:
+      entity_id: sensor.brenton_travel_time
+- id: '1769662730192'
+  alias: 'Brenton: Time to Leave Notification'
+  description: Sends a Telegram notification when it's time to leave for a calendar
+    event, accounting for current travel time plus a 10-minute buffer.
+  triggers:
+  - at: sensor.brenton_departure_time
+    platform: time
+  conditions:
+  - condition: template
+    value_template: '{{ states(''sensor.brenton_departure_time'') not in [''unknown'',
+      ''unavailable''] }}'
+  - condition: template
+    value_template: '{{ states(''input_text.destination_address'') not in ['''', ''unknown'',
+      ''unavailable''] }}'
+  actions:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
+      message: "\U0001F697 Leave now for **{{ states('input_text.brenton_next_event_name')
+        | default('your appointment') }}**! Current travel time is {{ states('sensor.calendar_travel')
+        | float(0) | round(0) | int }} mins — you'll arrive with ~10 mins to spare."
+  mode: single
+- id: '1769869455162'
+  alias: Pulled pork probe 2 over 203
+  description: Sends a notification and turns on a light when the probe 2 temperature
+    exceeds 203 degrees.
+  triggers:
+  - entity_id:
+    - sensor.probe_2
+    above: 200
+    platform: numeric_state
+  conditions: []
+  actions:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_609952141_782734799
+    data:
+      message: Smoker outside range (high)
+  - action: tts.speak
+    metadata: {}
+    data:
+      cache: true
+      message: Smoker over temperature
+      media_player_entity_id: media_player.nesthub19fd
+    target:
+      entity_id: tts.home_assistant_cloud
+    enabled: false
+  - action: light.turn_on
+    metadata: {}
+    target:
+      device_id: 270ba07ee9c531c776784183e5c91018
+    data: {}
   mode: single

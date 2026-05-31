@@ -63,3 +63,4 @@ www/community/comfortable-environment-card/comfortable-environment-card.js
 .exports
 home-assistant.log.old
 .ha_run.lock
+.cache/brands/*
